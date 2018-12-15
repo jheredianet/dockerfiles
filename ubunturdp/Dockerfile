@@ -41,16 +41,25 @@ RUN apt install -yy apt-utils software-properties-common \
   vim wget curl ca-certificates xorgxrdp pulseaudio xrdp\
   xfce4 xfce4-terminal xfce4-screenshooter xfce4-taskmanager \
   xfce4-clipman-plugin xfce4-cpugraph-plugin xfce4-netload-plugin \
-  xfce4-xkb-plugin xauth supervisor uuid-runtime locales sudo snapd \
-  firefox pepperflashplugin-nonfree openssh-server nano default-jre default-jdk
+  xfce4-xkb-plugin xauth supervisor uuid-runtime locales sudo \
+  firefox pepperflashplugin-nonfree openssh-server \
+  calibre nano \
+	&& add-apt-repository -y ppa:webupd8team/java
+RUN apt-get -y update \
+	&& echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
+  && apt-get install -y oracle-java8-installer oracle-java8-set-default
+RUN apt-get autoclean && apt-get autoremove && rm -rf /var/lib/apt/lists/*
 RUN mkdir -p /var/lib/xrdp-pulseaudio-installer
 COPY --from=builder /tmp/so/module-xrdp-source.so /var/lib/xrdp-pulseaudio-installer
 COPY --from=builder /tmp/so/module-xrdp-sink.so /var/lib/xrdp-pulseaudio-installer
 
+# RUN wget -qO - https://get.filebot.net/filebot/KEYS | sudo apt-key add - \
+#    && add-apt-repository 'deb [arch=amd64] https://get.filebot.net/deb/ stable main' \
+#    && apt install -yy  filebot
 
-RUN wget -qO - https://get.filebot.net/filebot/KEYS | sudo apt-key add - \
-    && add-apt-repository 'deb [arch=amd64] https://get.filebot.net/deb/ stable main' \
-    && apt install -yy calibre filebot
+# Descargar Filebot
+RUN wget -O /tmp/filebot.deb 'https://app.filebot.net/download.php?type=deb&arch=amd64'
+RUN dpkg -i /tmp/filebot.deb && rm /tmp/filebot.deb
 
 ADD etc /etc
 ADD run /run
