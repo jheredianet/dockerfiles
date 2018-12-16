@@ -1,0 +1,2 @@
+For building you have to be on the root of the repository and run 
+docker build -t jenkins -f jenkins/Dockerfile .
