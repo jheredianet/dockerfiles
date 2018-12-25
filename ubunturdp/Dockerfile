@@ -43,7 +43,7 @@ RUN apt install -yy apt-utils software-properties-common \
   xfce4-clipman-plugin xfce4-cpugraph-plugin xfce4-netload-plugin \
   xfce4-xkb-plugin xauth supervisor uuid-runtime locales sudo \
   firefox pepperflashplugin-nonfree openssh-server \
-  calibre nano pyrenamer \
+  calibre nano gtk2-engines-pixbuf gprename renrot \
 	&& add-apt-repository -y ppa:webupd8team/java
 RUN apt-get -y update \
 	&& echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections \
@@ -87,8 +87,10 @@ RUN useradd -mp xkHzu52z8mnRU -s /bin/bash -g ubuntu -G sudo desktop
 # RUN echo "ubuntu:ubuntu" | /usr/sbin/chpasswd
 # RUN echo "ubuntu    ALL=(ALL) ALL" >> /etc/sudoers
 
-# Docker config
+# Custom user preferences
+RUN ln -s /usr/bin/gprename /home/desktop/Desktop/gprename
 
+# Docker config
 VOLUME ["/etc/ssh","/home"]
 EXPOSE 3389 22 9001
 ENTRYPOINT ["/run/docker-entrypoint.sh"]
