@@ -5,7 +5,7 @@ set -e
 # S3QL_EXPORTER_ID=""
 function disconnect() {
     echo "unmounting $MOUNTPOINT"
-    /bin/fusermount -u -z "$MOUNTPOINT"
+    /bin/fusermount -u "$MOUNTPOINT"
     echo "Umount Success!!"
 }
 
