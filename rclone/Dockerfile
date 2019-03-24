@@ -1,12 +1,12 @@
 FROM ubuntu:18.04
 LABEL maintainer="jchm@infoinnova.net"
 
-ADD install.sh /tmp/install.sh
-RUN chmod +x /tmp/install.sh
-RUN /tmp/install.sh
+ADD install.sh /setup/install.sh
+RUN chmod +x /setup/install.sh
+RUN /setup/install.sh
 
-ADD entrypoint.sh /tmp/entrypoint.sh
-RUN chmod +x /tmp/entrypoint.sh
+ADD entrypoint.sh /setup/entrypoint.sh
+RUN chmod +x /setup/entrypoint.sh
 
 ENV \
     CONFIG="/config/rclone.conf" \
@@ -20,5 +20,5 @@ ENV \
 
 VOLUME ${MOUNTPOINT}
 
-ENTRYPOINT ["/tmp/entrypoint.sh"]
+ENTRYPOINT ["/setup/entrypoint.sh"]
 CMD ["mount"]
