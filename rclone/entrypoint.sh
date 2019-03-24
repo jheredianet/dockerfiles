@@ -13,7 +13,7 @@ function disconnect() {
 OPEN_FILES_DESCRIPTOR=990000
 ulimit -n $OPEN_FILES_DESCRIPTOR
 
-echo "mount rclone drive to $S3QL_MOUNTPOINT"
+echo "mount rclone '$MOUNTCONFIG' drive to $S3QL_MOUNTPOINT"
 # Convertimos a segundos
 mkdir -p "$MOUNTPOINT"
 
