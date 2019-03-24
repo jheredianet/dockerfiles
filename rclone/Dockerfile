@@ -1,11 +1,11 @@
 FROM ubuntu:18.04
 LABEL maintainer="jchm@infoinnova.net"
 
-COPY install.sh /tmp/install.sh
+ADD install.sh /tmp/install.sh
 RUN chmod +x /tmp/install.sh
 RUN /tmp/install.sh
 
-COPY entrypoint.sh /tmp/entrypoint.sh
+ADD entrypoint.sh /tmp/entrypoint.sh
 RUN chmod +x /tmp/entrypoint.sh
 
 ENV \
