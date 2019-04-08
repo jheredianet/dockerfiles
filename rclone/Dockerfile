@@ -11,6 +11,7 @@ RUN chmod +x /setup/entrypoint.sh
 ENV \
     CONFIG="/config/rclone.conf" \
     MOUNTCONFIG="" \
+    SERVERPATH="" \
     BUFFER_SIZE="1G" \
     DIR_CACHE_TIME="72h" \
     VFS_READ_CHUNK_SIZE="128M" \
