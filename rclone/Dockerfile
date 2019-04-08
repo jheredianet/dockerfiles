@@ -16,7 +16,7 @@ ENV \
     DIR_CACHE_TIME="72h" \
     VFS_READ_CHUNK_SIZE="128M" \
     DRIVE_CHUNK_SIZE="256M" \   
-    CACHE_FOLDER="/cache" \
+    CACHE_FOLDER="/mnt/cache" \
     LOGFILE="/tmp/rclone.log" \
     MOUNTPOINT="/mnt/mountpoint" 
 

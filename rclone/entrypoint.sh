@@ -4,9 +4,9 @@ set -e
 # Abort entire script if any command fails
 # S3QL_EXPORTER_ID=""
 function disconnect() {
-    echo "unmounting $MOUNTPOINT"
-    /bin/fusermount -u "$MOUNTPOINT"
-    echo "Umount Success!!"
+    #echo "unmounting $MOUNTPOINT"
+    #/bin/fusermount -u "$MOUNTPOINT"
+    echo "Exit and Stop RClone Server Success!!"
 }
 
 
@@ -29,7 +29,9 @@ trap disconnect  SIGTERM
     --stats 0 \
     --log-file "$LOGFILE" \
     --log-level INFO \
-    $MOUNTCONFIG:$SERVERPATH & wait
+    $MOUNTCONFIG:$SERVERPATH & 
+    
+tail -f "$LOGFILE" & wait
 
 #/usr/bin/rclone mount --rc --allow-other \
 #    --fast-list --log-level INFO \
