@@ -24,7 +24,13 @@ trap disconnect  SIGINT
 trap disconnect  SIGTERM
 
 
-/usr/bin/rclone serve restic $MOUNTCONFIG:$SERVERPATH
+/usr/bin/rclone serve restic \
+    --config $CONFIG \
+    --stats 0 \
+    --log-file "$LOGFILE" \
+    --log-level INFO \
+    $MOUNTCONFIG:$SERVERPATH & wait
+
 #/usr/bin/rclone mount --rc --allow-other \
 #    --fast-list --log-level INFO \
 #    --vfs-read-chunk-size-limit off \

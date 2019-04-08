@@ -17,6 +17,7 @@ ENV \
     VFS_READ_CHUNK_SIZE="128M" \
     DRIVE_CHUNK_SIZE="256M" \   
     CACHE_FOLDER="/cache" \
+    LOGFILE="/tmp/rclone.log" \
     MOUNTPOINT="/mnt/mountpoint" 
 
 VOLUME ${MOUNTPOINT}
