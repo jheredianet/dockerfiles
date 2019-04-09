@@ -26,11 +26,11 @@ trap disconnect  SIGTERM
 
 /usr/bin/rclone serve restic \
     --config $CONFIG \
-    --stats 0 \
+    --stats 10m \
     --log-file "$LOGFILE" \
-    $MOUNTCONFIG:$SERVERPATH & 
+    $MOUNTCONFIG:$SERVERPATH & wait
     
-tail -f "$LOGFILE" & wait
+#tail -f "$LOGFILE" & wait
 
 #/usr/bin/rclone mount --rc --allow-other \
 #    --fast-list --log-level INFO \
