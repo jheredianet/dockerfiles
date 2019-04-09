@@ -18,6 +18,8 @@ ENV \
     DRIVE_CHUNK_SIZE="256M" \   
     CACHE_FOLDER="/mnt/cache" \
     LOGFILE="/tmp/rclone.log" \
+    RESTIC_REPOSITORY="rest:http://localhost:8080/" \
+    RESTIC_PASSWORD="MyPa$$word" \
     MOUNTPOINT="/mnt/mountpoint" 
 
 VOLUME ${MOUNTPOINT}

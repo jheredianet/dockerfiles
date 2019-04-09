@@ -28,7 +28,6 @@ trap disconnect  SIGTERM
     --config $CONFIG \
     --stats 0 \
     --log-file "$LOGFILE" \
-    --log-level INFO \
     $MOUNTCONFIG:$SERVERPATH & 
     
 tail -f "$LOGFILE" & wait
