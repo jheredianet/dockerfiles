@@ -22,17 +22,17 @@ echo "backend-password: $LOGIN_PASSWORD" >> /credentials
 echo "fs-passphrase: $PASSPHRASE" >> /credentials
 chmod 700 /credentials
 
-OPEN_FILES_DESCRIPTOR=990000
+export OPEN_FILES_DESCRIPTOR=990000
 ulimit -n $OPEN_FILES_DESCRIPTOR
 
 # Cache Size
-CACHE_S3QL_SIZE=$((${CACHE_S3QL_SIZE}*1024*1024))
+export CACHE_S3QL_SIZE=$((${CACHE_S3QL_SIZE}*1024*1024))
 
 # Log File
-LOGFILE="$S3QL_CACHE_PATH/mount.log"
+export LOGFILE="$S3QL_CACHE_PATH/mount.log"
 
 if [ ! -z "${BACKEND_OPTIONS}" ]; then
-        BACKEND_OPTIONS='--backend-options "$BACKEND_OPTIONS"'
+        export BACKEND_OPTIONS='--backend-options "$BACKEND_OPTIONS"'
 fi
 
 mkdir -p "$S3QL_CACHE_PATH"
@@ -49,7 +49,7 @@ fsck.s3ql $BACKEND_OPTIONS \
 
 echo "mount s3ql to $S3QL_MOUNTPOINT"
 # Convertimos a segundos
-S3QL_METADATA_UPLOAD_INTERVAL=$((${S3QL_METADATA_UPLOAD_INTERVAL}*60*60))
+export S3QL_METADATA_UPLOAD_INTERVAL=$((${S3QL_METADATA_UPLOAD_INTERVAL}*60*60))
 # Create a temporary mountpoint and mount file system
 mkdir -p "$S3QL_MOUNTPOINT"
 mount.s3ql --log  "$LOGFILE"\
