@@ -27,8 +27,9 @@ ulimit -n $OPEN_FILES_DESCRIPTOR
 
 # Cache Size
 CACHE_S3QL_SIZE=$((${CACHE_S3QL_SIZE}*1024*1024))
+
 # Log File
-logfile="$S3QL_CACHE_PATH/mount.log"
+LOGFILE="$S3QL_CACHE_PATH/mount.log"
 
 if [ ! -z "${BACKEND_OPTIONS}" ]; then
         BACKEND_OPTIONS='--backend-options "$BACKEND_OPTIONS"'
@@ -51,7 +52,7 @@ echo "mount s3ql to $S3QL_MOUNTPOINT"
 S3QL_METADATA_UPLOAD_INTERVAL=$((${S3QL_METADATA_UPLOAD_INTERVAL}*60*60))
 # Create a temporary mountpoint and mount file system
 mkdir -p "$S3QL_MOUNTPOINT"
-mount.s3ql --log  "$logfile"\
+mount.s3ql --log  "$LOGFILE"\
     --cachedir "$S3QL_CACHE_PATH" \
     --cachesize $CACHE_S3QL_SIZE \
     --authfile /credentials \
@@ -71,4 +72,4 @@ mount.s3ql --log  "$logfile"\
 trap disconnect  SIGINT
 trap disconnect  SIGTERM
 
-tail -f "$logfile" & wait
+tail -f "$LOGFILE" & wait
