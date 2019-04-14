@@ -8,21 +8,24 @@ RUN /setup/install.sh
 ADD entrypoint.sh /setup/entrypoint.sh
 RUN chmod +x /setup/entrypoint.sh
 
+ADD restic_0.9.4_linux_amd64 /setup/restic
+RUN chmod +x /setup/restic
+RUN mv /setup/restic /usr/bin/restic
+
+ADD runrestic /setup/runrestic
+RUN chmod +x /setup/runrestic
+RUN mv /setup/runrestic /usr/bin/runrestic
+
 ENV \
-    CONFIG="/config/rclone.conf" \
-    MOUNTCONFIG="" \
-    SERVERPATH="" \
-    BUFFER_SIZE="1G" \
-    DIR_CACHE_TIME="72h" \
-    VFS_READ_CHUNK_SIZE="128M" \
-    DRIVE_CHUNK_SIZE="256M" \   
+    RCLONE_CONFIG="/config/rclone.conf" \
     CACHE_FOLDER="/mnt/cache" \
-    LOGFILE="/tmp/rclone.log" \
-    RESTIC_REPOSITORY="rest:http://localhost:8080/" \
-    RESTIC_PASSWORD="MyPa$$word" \
+    RCLONE_LOG_FILE="/mnt/cache/rclone.log" \
+    RESTIC_PASSWORD="MyPaSSw0rd" \
+    RESTIC_REPOSITORY="rclone:foo:bar" \
     MOUNTPOINT="/mnt/mountpoint" 
 
 VOLUME ${MOUNTPOINT}
+VOLUME "/config"
 
 ENTRYPOINT ["/setup/entrypoint.sh"]
-CMD ["mount"]
+CMD ["/bin/bash"]

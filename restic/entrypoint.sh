@@ -16,29 +16,14 @@ ulimit -n $OPEN_FILES_DESCRIPTOR
 #echo "mount rclone '$MOUNTCONFIG' drive to $S3QL_MOUNTPOINT"
 # Convertimos a segundos
 mkdir -p "$MOUNTPOINT"
+mkdir -p "$CACHE_FOLDER"
+
+echo "Starting container: $(date)" >> "$RCLONE_LOG_FILE"
 
 # Make sure the file system is unmounted when we are done
 # Note that this overwrites the earlier trap, so we
 # also delete the lock file here.
 trap disconnect  SIGINT
 trap disconnect  SIGTERM
-
-
-/usr/bin/rclone serve restic \
-    --config $CONFIG \
-    --stats 10m \
-    --log-file "$LOGFILE" \
-    $MOUNTCONFIG:$SERVERPATH & wait
     
-#tail -f "$LOGFILE" & wait
-
-#/usr/bin/rclone mount --rc --allow-other \
-#    --fast-list --log-level INFO \
-#    --vfs-read-chunk-size-limit off \
-#    --poll-interval 0 \
-#    --buffer-size $BUFFER_SIZE \
-#    --dir-cache-time $DIR_CACHE_TIME \
-#    --drive-chunk-size $DRIVE_CHUNK_SIZE \
-#    --vfs-read-chunk-size $VFS_READ_CHUNK_SIZE \
-#    --config $CONFIG \
-#    $MOUNTCONFIG:/ "$MOUNTPOINT" & wait
+tail -f "$RCLONE_LOG_FILE" & wait
