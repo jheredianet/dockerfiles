@@ -18,17 +18,12 @@ ulimit -n $OPEN_FILES_DESCRIPTOR
 mkdir -p "$MOUNTPOINT"
 mkdir -p "$CACHE_FOLDER"
 
+echo "Starting container: $(date)" >> "$RCLONE_LOG_FILE"
+
 # Make sure the file system is unmounted when we are done
 # Note that this overwrites the earlier trap, so we
 # also delete the lock file here.
 trap disconnect  SIGINT
 trap disconnect  SIGTERM
-
-
-#/usr/bin/rclone serve restic \
-#    --config $CONFIG \
-#    --stats 10m \
-#    --log-file "$LOGFILE" \
-#    $MOUNTCONFIG:$SERVERPATH & wait
     
-tail -f "$LOGFILE" & wait
+tail -f "$RCLONE_LOG_FILE" & wait

@@ -12,16 +12,20 @@ ADD restic_0.9.4_linux_amd64 /setup/restic
 RUN chmod +x /setup/restic
 RUN mv /setup/restic /usr/bin/restic
 
+ADD runrestic /setup/runrestic
+RUN chmod +x /setup/runrestic
+RUN mv /setup/runrestic /usr/bin/runrestic
+
 ENV \
-    CONFIG="/config/rclone.conf" \
-    MOUNTCONFIG="[rclone]" \
-    SERVERPATH="/" \ 
+    RCLONE_CONFIG="/config/rclone.conf" \
     CACHE_FOLDER="/mnt/cache" \
-    LOGFILE="/mnt/cache/rclone.log" \
-    RESTIC_PASSWORD="MyPa$$word" \
+    RCLONE_LOG_FILE="/mnt/cache/rclone.log" \
+    RESTIC_PASSWORD="MyPaSSw0rd" \
+    RESTIC_REPOSITORY="rclone:foo:bar" \
     MOUNTPOINT="/mnt/mountpoint" 
 
 VOLUME ${MOUNTPOINT}
+VOLUME "/config"
 
 ENTRYPOINT ["/setup/entrypoint.sh"]
 CMD ["/bin/bash"]
