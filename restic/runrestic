@@ -3,5 +3,5 @@ PARAMETERS="$*"
 eval "/usr/bin/restic --cache-dir $CACHE_FOLDER \
     -o rclone.program='/usr/bin/rclone' \
     -o rclone.args='serve restic --stdio --b2-hard-delete \
-    --stats 5m --log-file $RCLONE_LOG_FILE' \
+    --stats 5m --stats-log-level NOTICE --log-file $RCLONE_LOG_FILE' \
     $PARAMETERS"

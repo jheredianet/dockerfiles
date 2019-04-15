@@ -1,10 +1,6 @@
 FROM ubuntu:18.04
 LABEL maintainer="jchm@infoinnova.net"
 
-ADD install.sh /setup/install.sh
-RUN chmod +x /setup/install.sh
-RUN /setup/install.sh
-
 ADD entrypoint.sh /setup/entrypoint.sh
 RUN chmod +x /setup/entrypoint.sh
 
@@ -15,6 +11,10 @@ RUN mv /setup/restic /usr/bin/restic
 ADD runrestic /setup/runrestic
 RUN chmod +x /setup/runrestic
 RUN mv /setup/runrestic /usr/bin/runrestic
+
+ADD install.sh /setup/install.sh
+RUN chmod +x /setup/install.sh
+RUN /setup/install.sh
 
 ENV \
     RCLONE_CONFIG="/config/rclone.conf" \
