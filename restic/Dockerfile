@@ -19,6 +19,7 @@ RUN /setup/install.sh
 ENV \
     RCLONE_CONFIG="/config/rclone.conf" \
     CACHE_FOLDER="/mnt/cache" \
+    TMPDIR="/mnt/cache/tmp" \
     RCLONE_LOG_FILE="/mnt/cache/rclone.log" \
     RESTIC_PASSWORD="MyPaSSw0rd" \
     RESTIC_REPOSITORY="rclone:foo:bar" \

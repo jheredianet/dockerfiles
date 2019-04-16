@@ -6,12 +6,8 @@ set -e
 function disconnect() {
     #echo "unmounting $MOUNTPOINT"
     #/bin/fusermount -u "$MOUNTPOINT"
-    echo "Exit and Stop RClone Server Success!!"
+    echo "Exit and Stop restic/rclone success!!" >> "$RCLONE_LOG_FILE"
 }
-
-
-OPEN_FILES_DESCRIPTOR=990000
-ulimit -n $OPEN_FILES_DESCRIPTOR
 
 #echo "mount rclone '$MOUNTCONFIG' drive to $S3QL_MOUNTPOINT"
 # Convertimos a segundos
@@ -19,6 +15,8 @@ mkdir -p "$MOUNTPOINT"
 mkdir -p "$CACHE_FOLDER"
 
 echo "Starting container: $(date)" >> "$RCLONE_LOG_FILE"
+echo "Checking for 'restic' updates..." >> "$RCLONE_LOG_FILE"
+/usr/bin/restic self-update
 
 # Make sure the file system is unmounted when we are done
 # Note that this overwrites the earlier trap, so we
