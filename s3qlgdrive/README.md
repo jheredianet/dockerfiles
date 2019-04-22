@@ -2,6 +2,7 @@
 
 A container for mounting a Google Drive folder with S3QL
 
+2019-04-22: Fix logs and improve limits.  
 2019-04-10: Environment Variables with EXPORT.  
 2019-04-10: Fix Logs Files.  
 2019-03-25: Definition Change: Interval and variable names.  
