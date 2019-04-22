@@ -6,7 +6,7 @@ set -e
 function disconnect() {
     #echo "unmounting $MOUNTPOINT"
     #/bin/fusermount -u "$MOUNTPOINT"
-    echo "Exit and Stop restic/rclone success!!" >> "$RCLONE_LOG_FILE"
+    echo "Exit and Stop borg/rclone success!!" >> "$RCLONE_LOG_FILE"
 }
 
 #echo "mount rclone '$MOUNTCONFIG' drive to $S3QL_MOUNTPOINT"
@@ -34,3 +34,7 @@ trap disconnect  SIGINT
 trap disconnect  SIGTERM
     
 tail -f "$RCLONE_LOG_FILE" & wait
+
+
+# Just do what we are asked for
+# exec "$@"
