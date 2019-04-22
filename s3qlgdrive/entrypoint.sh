@@ -22,8 +22,13 @@ echo "backend-password: $LOGIN_PASSWORD" >> /credentials
 echo "fs-passphrase: $PASSPHRASE" >> /credentials
 chmod 700 /credentials
 
-export OPEN_FILES_DESCRIPTOR=990000
+export OPEN_FILES_DESCRIPTOR=999999
 ulimit -n $OPEN_FILES_DESCRIPTOR
+
+echo "* soft nofile $OPEN_FILES_DESCRIPTOR" >> /etc/security/limits.conf 
+echo "* hard nofile $OPEN_FILES_DESCRIPTOR" >> /etc/security/limits.conf 
+echo "root soft nofile $OPEN_FILES_DESCRIPTOR" >> /etc/security/limits.conf 
+echo "root hard nofile $OPEN_FILES_DESCRIPTOR" >> /etc/security/limits.conf
 
 # Cache Size
 export CACHE_S3QL_SIZE=$((${CACHE_S3QL_SIZE}*1024*1024))
