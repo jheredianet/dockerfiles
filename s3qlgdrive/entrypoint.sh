@@ -45,19 +45,21 @@ mkdir -p "$S3QL_CACHE_PATH"
 
 # Recover cache if e.g. system was shut down while fs was mounted
 echo "check s3ql corruption"
-fsck.s3ql $BACKEND_OPTIONS \
+fsck.s3ql \
+    --log  "$LOGFILE" \
     --force-remote --batch \
     --keep-cache \
     --cachedir "$S3QL_CACHE_PATH" \
     --authfile /credentials \
-    "$STORAGE_URL"
+    $BACKEND_OPTIONS "$STORAGE_URL"
 
 echo "mount s3ql to $S3QL_MOUNTPOINT"
 # Convertimos a segundos
 export S3QL_METADATA_UPLOAD_INTERVAL=$((${S3QL_METADATA_UPLOAD_INTERVAL}*60*60))
 # Create a temporary mountpoint and mount file system
 mkdir -p "$S3QL_MOUNTPOINT"
-mount.s3ql --log  "$LOGFILE"\
+mount.s3ql \
+    --log  "$LOGFILE" \
     --cachedir "$S3QL_CACHE_PATH" \
     --cachesize $CACHE_S3QL_SIZE \
     --authfile /credentials \
