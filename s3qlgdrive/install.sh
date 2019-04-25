@@ -16,9 +16,12 @@ pip3 install prometheus_client cython pycrypto \
 
 pip3 install --upgrade google-api-python-client
 pip3 install --upgrade oauth2client
+pip3 install --upgrade google-auth-oauthlib
 
 echo "download s3ql code"
-git clone https://github.com/segator/s3ql.git -b gdrive
+#git clone https://github.com/segator/s3ql.git -b gdrive
+git clone https://github.com/jheredianet/s3ql.git -b gdrive
+
 cd s3ql
 echo "compile s3ql"
 python3 setup.py build_cython
