@@ -38,4 +38,7 @@ rclone serve restic \
     --stats 10m \
     -v --b2-hard-delete \
     $RCLONEPARAMETERS \
-    $MOUNTCONFIG:$SERVERPATH 
+    $MOUNTCONFIG:$SERVERPATH
+
+# --stats-log-level NOTICE --log-file "$RCLONE_LOG_FILE" \
+# tail -f "$RCLONE_LOG_FILE" & wait
