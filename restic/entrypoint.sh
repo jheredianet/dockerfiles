@@ -36,7 +36,7 @@ trap disconnect  SIGTERM
 # Execute rclone on backgroud and leave logs in a file
 rclone serve restic \
     --config $RCLONE_CONFIG \
-    --stats-log-level NOTICE --log-file "$RCLONE_LOG_FILE" \
+    --stats-log-level ERROR --log-file "$RCLONE_LOG_FILE" \
     --stats 10m \
     --b2-hard-delete \
     $RCLONE_PARAMETERS \
