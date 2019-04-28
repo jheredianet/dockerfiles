@@ -34,7 +34,7 @@ trap disconnect  SIGINT
 trap disconnect  SIGTERM
     
 rclone serve restic \
-    --config $CONFIG \
+    --config $RCLONE_CONFIG \
     --stats 10m \
     -v --b2-hard-delete \
     $RCLONEPARAMETERS \
