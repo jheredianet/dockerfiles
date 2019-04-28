@@ -1,10 +1,13 @@
 #!/bin/bash
+export DEBIAN_FRONTEND=noninteractive
 
 echo "install compilation tools and dependencies"
 echo "Begining..."
 apt-get update -qq
 apt-get install -y git nano curl \
-   python3 python3-pip fuse psmisc pkg-config libattr1-dev libfuse-dev libsqlite3-dev libjs-sphinxdoc 
+   python3 python3-pip fuse psmisc pkg-config \
+   libattr1-dev libfuse-dev \
+   libsqlite3-dev libjs-sphinxdoc tzdata
    #texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-generic-extra \
    #texlive-fonts-recommended
 #pip3 install --upgrade pip
@@ -19,8 +22,8 @@ pip3 install --upgrade oauth2client
 pip3 install --upgrade google-auth-oauthlib
 
 echo "download s3ql code"
-#git clone https://github.com/segator/s3ql.git -b gdrive
-git clone https://github.com/jheredianet/s3ql.git -b gdrive
+git clone https://github.com/segator/s3ql.git -b gdrive
+#git clone https://github.com/jheredianet/s3ql.git -b gdrive
 
 cd s3ql
 echo "compile s3ql"

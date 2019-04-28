@@ -19,7 +19,10 @@ ENV STORAGE_URL="" \
     S3QL_CACHE_PATH="/mnt/cache" \    
     S3QL_MOUNTPOINT="/mnt/mountpoint" \
     S3QL_METADATA_UPLOAD_INTERVAL=30 \
-    S3QL_THREADS=15 
+    S3QL_THREADS=15 \
+    TZ="Europe/Madrid"
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 VOLUME ${S3QL_MOUNTPOINT}
 
