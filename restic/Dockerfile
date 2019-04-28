@@ -18,7 +18,7 @@ ENV \
     RCLONE_LOG_FILE="/mnt/cache/rclone.log" \
     RESTIC_PASSWORD="MyPaSSw0rd" \
     RESTIC_REPOSITORY="rest:http://localhost:8080/" \
-    RCLONEPARAMETERS="" \
+    RCLONE_PARAMETERS="" \
     MOUNTCONFIG="cache-rclone" \
     SERVERPATH="backuprepo" \
     MOUNTPOINT="/mnt/mountpoint" 
@@ -27,4 +27,4 @@ VOLUME ${MOUNTPOINT}
 VOLUME "/config"
 
 ENTRYPOINT ["/setup/entrypoint.sh"]
-CMD ["/bin/bash"]
+#CMD ["/bin/bash"]

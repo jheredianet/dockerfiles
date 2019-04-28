@@ -32,13 +32,15 @@ restic version
 # also delete the lock file here.
 trap disconnect  SIGINT
 trap disconnect  SIGTERM
-    
+
+# Execute rclone on backgroud and leave logs in a file
 rclone serve restic \
     --config $RCLONE_CONFIG \
+    --stats-log-level NOTICE --log-file "$RCLONE_LOG_FILE" \
     --stats 10m \
-    -v --b2-hard-delete \
-    $RCLONEPARAMETERS \
-    $MOUNTCONFIG:$SERVERPATH
+    --b2-hard-delete \
+    $RCLONE_PARAMETERS \
+    $MOUNTCONFIG:$SERVERPATH &
 
-# --stats-log-level NOTICE --log-file "$RCLONE_LOG_FILE" \
-# tail -f "$RCLONE_LOG_FILE" & wait
+# Mostar logs y esperar hasta que se detenga el docker
+tail -f "$RCLONE_LOG_FILE" & wait
