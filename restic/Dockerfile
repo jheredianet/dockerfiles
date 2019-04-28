@@ -8,10 +8,6 @@ ADD restic_0.9.4_linux_amd64 /setup/restic
 RUN chmod +x /setup/restic
 RUN mv /setup/restic /usr/bin/restic
 
-ADD runrestic /setup/runrestic
-RUN chmod +x /setup/runrestic
-RUN mv /setup/runrestic /usr/bin/runrestic
-
 ADD install.sh /setup/install.sh
 RUN chmod +x /setup/install.sh
 RUN /setup/install.sh
@@ -23,6 +19,8 @@ ENV \
     RESTIC_PASSWORD="MyPaSSw0rd" \
     RESTIC_REPOSITORY="rest:http://localhost:8080/" \
     RCLONEPARAMETERS="" \
+    MOUNTCONFIG="cache-rclone" \
+    SERVERPATH="backuprepo" \
     MOUNTPOINT="/mnt/mountpoint" 
 
 VOLUME ${MOUNTPOINT}
