@@ -12,9 +12,6 @@ ADD install.sh /setup/install.sh
 RUN chmod +x /setup/install.sh
 RUN /setup/install.sh
 
-ENV TZ=Europe/Madrid
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
 ENV \
     RCLONE_CONFIG="/config/rclone.conf" \
     CACHE_FOLDER="/mnt/cache" \
@@ -24,7 +21,10 @@ ENV \
     RCLONE_PARAMETERS="" \
     MOUNTCONFIG="cache-rclone" \
     SERVERPATH="backuprepo" \
-    MOUNTPOINT="/mnt/mountpoint" 
+    MOUNTPOINT="/mnt/mountpoint" \
+    TZ="Europe/Madrid"
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 VOLUME ${MOUNTPOINT}
 VOLUME "/config"
