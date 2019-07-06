@@ -4,7 +4,7 @@ export DEBIAN_FRONTEND=noninteractive
 echo "install compilation tools and dependencies"
 echo "Begining..."
 apt-get update -qq
-apt-get install -y git nano curl \
+apt-get install -y git rsync nano curl \
    python3 python3-pip fuse psmisc pkg-config \
    libattr1-dev libfuse-dev \
    libsqlite3-dev libjs-sphinxdoc tzdata
