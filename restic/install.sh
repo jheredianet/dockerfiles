@@ -3,7 +3,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 echo "Updating Linux..."
 apt-get update -qq
-apt-get install -y nano man curl unzip fuse htop nload mc tzdata
+apt-get install -y nano man curl unzip fuse htop nload mc time tzdata
 echo "Installing 'rclone' tool and dependencies..."
 curl https://rclone.org/install.sh | bash
 
