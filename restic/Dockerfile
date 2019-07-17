@@ -4,6 +4,9 @@ LABEL maintainer="jchm@infoinnova.net"
 ADD entrypoint.sh /setup/entrypoint.sh
 RUN chmod +x /setup/entrypoint.sh
 
+ADD countfiles.sh /setup/countfiles.sh
+RUN chmod +x /setup/countfiles.sh
+
 ADD restic_0.9.4_linux_amd64 /setup/restic
 RUN chmod +x /setup/restic
 RUN mv /setup/restic /usr/bin/restic
