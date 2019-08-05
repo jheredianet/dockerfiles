@@ -42,6 +42,8 @@ fi
 
 mkdir -p "$S3QL_CACHE_PATH"
 
+# Delete temporary files if exist
+ find "$S3QL_CACHE_PATH" -name *.tmp -delete
 
 # Recover cache if e.g. system was shut down while fs was mounted
 echo "check s3ql corruption"
