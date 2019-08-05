@@ -42,7 +42,7 @@ fi
 
 mkdir -p "$S3QL_CACHE_PATH"
 
-# Delete temporary files if exist
+# Delete temporary files if exist (Usually when the vol is not unmounted correctly)
  find "$S3QL_CACHE_PATH" -name *.tmp -delete
 
 # Recover cache if e.g. system was shut down while fs was mounted
