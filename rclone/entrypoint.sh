@@ -2,7 +2,6 @@
 set -e
 
 # Abort entire script if any command fails
-# S3QL_EXPORTER_ID=""
 function disconnect() {
     echo "unmounting $MOUNTPOINT"
     /bin/fusermount -u "$MOUNTPOINT"
@@ -13,7 +12,7 @@ function disconnect() {
 OPEN_FILES_DESCRIPTOR=990000
 ulimit -n $OPEN_FILES_DESCRIPTOR
 
-echo "mount rclone '$MOUNTCONFIG' drive to $S3QL_MOUNTPOINT"
+echo "mount rclone '$MOUNTCONFIG' drive to $MOUNTPOINT"
 # Convertimos a segundos
 mkdir -p "$MOUNTPOINT"
 
