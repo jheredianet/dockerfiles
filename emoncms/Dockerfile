@@ -43,9 +43,9 @@ RUN chown www-data:root /var/lib/phptimeseries
 
 ## JCH, now in init.sh
 # Create Emoncms logfile
-## RUN mkdir -p /var/log/emoncms/
-## RUN touch /var/log/emoncms/emoncms.log && touch /var/log/emoncms/emonpiupdate.log
-## RUN chmod -R 666 /var/log/emoncms/
+RUN mkdir -p /var/log/emoncms/
+RUN touch /var/log/emoncms/emoncms.log && touch /var/log/emoncms/emonpiupdate.log
+RUN chmod -R 666 /var/log/emoncms/
 
 # Default docker enviroment variables, change in production enviroment
 
@@ -76,7 +76,7 @@ MQTT_PASSWORD=YOUR_MQTT_PASSWORD \
 MQTT_BASETOPIC=emon
 
 
-COPY init.sh /init.sh
-RUN chmod +x /init.sh
-
-CMD ["/init.sh"]
+#COPY init.sh /init.sh
+#RUN chmod +x /init.sh
+#
+#CMD ["/init.sh"]
