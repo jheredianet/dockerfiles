@@ -13,4 +13,4 @@ cd /var/www/html/Modules/graph && git pull origin master
 cd /var/www/html/Modules/app && git pull origin master
 cd /var/www/html/Modules/device && git pull origin master
 
-tail -f /var/log/emoncms/emoncms.log & wait
+#tail -f /var/log/emoncms/emoncms.log & wait
