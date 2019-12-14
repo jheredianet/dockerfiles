@@ -24,14 +24,12 @@ COPY config/php.ini /usr/local/etc/php/
 # Copy in emoncms files, files can be mounted from local FS for dev see docker-compose
 # ADD ./emoncms /var/www/html
 
-## JCH, now in init.sh
-
 # Clone in master Emoncms repo & modules - overwritten in development with local FS files
-## RUN git clone https://github.com/emoncms/emoncms.git /var/www/html
-## RUN git clone https://github.com/emoncms/dashboard.git /var/www/html/Modules/dashboard
-## RUN git clone https://github.com/emoncms/graph.git /var/www/html/Modules/graph
-## RUN git clone https://github.com/emoncms/app.git /var/www/html/Modules/app
-## RUN git clone https://github.com/emoncms/device.git /var/www/html/Modules/device
+RUN git clone https://github.com/emoncms/emoncms.git /var/www/html
+RUN git clone https://github.com/emoncms/dashboard.git /var/www/html/Modules/dashboard
+RUN git clone https://github.com/emoncms/graph.git /var/www/html/Modules/graph
+RUN git clone https://github.com/emoncms/app.git /var/www/html/Modules/app
+RUN git clone https://github.com/emoncms/device.git /var/www/html/Modules/device
 
 COPY docker.settings.php /var/www/html/settings.php
 
@@ -43,6 +41,7 @@ RUN chown www-data:root /var/lib/phpfiwa
 RUN chown www-data:root /var/lib/phpfina
 RUN chown www-data:root /var/lib/phptimeseries
 
+## JCH, now in init.sh
 # Create Emoncms logfile
 ## RUN mkdir -p /var/log/emoncms/
 ## RUN touch /var/log/emoncms/emoncms.log && touch /var/log/emoncms/emonpiupdate.log
