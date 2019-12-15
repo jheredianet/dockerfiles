@@ -74,9 +74,3 @@ MQTT_HOST=localhost \
 MQTT_USER=YOUR_MQTT_USER \
 MQTT_PASSWORD=YOUR_MQTT_PASSWORD \
 MQTT_BASETOPIC=emon
-
-
-#COPY init.sh /init.sh
-#RUN chmod +x /init.sh
-#
-#CMD ["/init.sh"]
