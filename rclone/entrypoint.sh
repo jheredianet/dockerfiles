@@ -31,5 +31,7 @@ trap disconnect  SIGTERM
     --dir-cache-time $DIR_CACHE_TIME \
     --drive-chunk-size $DRIVE_CHUNK_SIZE \
     --vfs-read-chunk-size $VFS_READ_CHUNK_SIZE \
+    --cache-dir $CACHE_FOLDER \
+    --vfs-cache-mode full \
     --config $CONFIG \
     $MOUNTCONFIG:/ "$MOUNTPOINT" & wait
