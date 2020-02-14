@@ -24,9 +24,9 @@ trap disconnect  SIGTERM
 
 
 /usr/bin/rclone mount --rc --allow-other \
-    --fast-list --log-level INFO \
-    --vfs-read-chunk-size-limit off \
-    --poll-interval 0 \
+    --fast-list \
+    --log-level $LOG_LEVEL \
+    --vfs-read-chunk-size-limit 0 \
     --buffer-size $BUFFER_SIZE \
     --dir-cache-time $DIR_CACHE_TIME \
     --drive-chunk-size $DRIVE_CHUNK_SIZE \
