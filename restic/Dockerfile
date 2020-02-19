@@ -25,6 +25,7 @@ ENV \
     MOUNTCONFIG="cache-rclone" \
     SERVERPATH="backuprepo" \
     MOUNTPOINT="/mnt/mountpoint" \
+    STATS_LOG_LEVEL="INFO" \
     TZ="Europe/Madrid"
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
