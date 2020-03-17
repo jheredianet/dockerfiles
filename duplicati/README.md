@@ -166,3 +166,7 @@ Below are the instructions for updating containers:
 * **09.12.17:** - Fix continuation lines.
 * **31.08.17:** - Build only beta or release versions (thanks deasmi).
 * **24.04.17:** - Initial release.
+
+## Customization
+
+* **2020.03.17:** - Adding Rclone for using it as backup destination.
