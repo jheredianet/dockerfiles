@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 LABEL maintainer="jchm@infoinnova.net"
 
 COPY install.sh /install.sh
@@ -13,7 +13,7 @@ ENV STORAGE_URL="" \
     LOGIN_USER="" \
     LOGIN_PASSWORD="" \
     PASSPHRASE="" \
-    LOGFILE="" \
+    LOGFILE="/mnt/cache/s3ql.log" \
     COMPRESS_METHOD="none" \
     BACKEND_OPTIONS="" \
     S3QL_CACHE_PATH="/mnt/cache" \    
