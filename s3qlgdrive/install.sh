@@ -23,7 +23,7 @@ pip3 install --upgrade google-auth-oauthlib
 
 echo "download s3ql code"
 #git clone https://github.com/segator/s3ql.git -b gdrive
-git clone https://github.com/jheredianet/s3ql.git -b gdrivefastfsck
+git clone https://github.com/jheredianet/s3ql.git -b skipfsck
 
 cd s3ql
 echo "compile s3ql"

@@ -2,6 +2,7 @@
 
 A container for mounting a Google Drive folder with S3QL
 
+2020-06-17: Skip cloud fsck 
 2019-07-05: Delete temporary files if exist (Usually when the vol is not unmounted correctly).
 2019-04-28: Add tzdata.
 2019-04-22: Fix logs and improve limits.  
