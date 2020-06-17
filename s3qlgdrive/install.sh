@@ -5,14 +5,14 @@ echo "install compilation tools and dependencies"
 echo "Begining..."
 apt-get update -qq
 apt-get install -y git rsync nano curl \
-   python3 python3-pip fuse psmisc pkg-config \
-   libattr1-dev libfuse-dev \
+   python3 python3-pip fuse3 psmisc pkg-config \
+   libattr1-dev libfuse3-dev \
    libsqlite3-dev libjs-sphinxdoc tzdata
    #texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-generic-extra \
    #texlive-fonts-recommended
 #pip3 install --upgrade pip
 pip3 install https://github.com/rogerbinns/apsw/releases/download/3.8.2-r1/apsw-3.8.2-r1.zip
-pip3 install prometheus_client cython pycrypto \
+pip3 install prometheus_client cython pycrypto pyfuse3 \
     defusedxml requests "llfuse >= 1.0, < 2.0" "dugong >= 3.4, < 4.0" "pytest >= 2.7" 
     #pytest-catchlog sphinx
     #cython==0.24.1
