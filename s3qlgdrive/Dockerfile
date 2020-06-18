@@ -13,7 +13,6 @@ ENV STORAGE_URL="" \
     LOGIN_USER="" \
     LOGIN_PASSWORD="" \
     PASSPHRASE="" \
-    LOGFILE="/mnt/cache/s3ql.log" \
     COMPRESS_METHOD="none" \
     BACKEND_OPTIONS="" \
     S3QL_CACHE_PATH="/mnt/cache" \    

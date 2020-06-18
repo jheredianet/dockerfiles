@@ -26,8 +26,8 @@ apt install -y fuse3 libfuse3-dev
 pip3 install pyfuse3 cryptography
 
 echo "download s3ql code"
-#git clone https://github.com/segator/s3ql.git -b gdrive
-git clone https://github.com/jheredianet/s3ql.git -b skipfsck
+git clone https://github.com/segator/s3ql.git -b gdrive
+#git clone https://github.com/jheredianet/s3ql.git -b skipfsck
 
 cd s3ql
 echo "compile s3ql"
