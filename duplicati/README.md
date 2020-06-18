@@ -55,7 +55,7 @@ docker create \
   -v </path/to/backups>:/backups \
   -v </path/to/source>:/source \
   --restart unless-stopped \
-  linuxserver/duplicati
+  juanheredia/duplicati-rclone
 ```
 
 
@@ -68,7 +68,7 @@ Compatible with docker-compose v2 schemas.
 version: "2"
 services:
   duplicati:
-    image: linuxserver/duplicati
+    image: juanheredia/duplicati-rclone
     container_name: duplicati
     environment:
       - PUID=1000
