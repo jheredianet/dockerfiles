@@ -4,26 +4,22 @@ export DEBIAN_FRONTEND=noninteractive
 echo "install compilation tools and dependencies"
 echo "Begining..."
 apt update -qq
-apt install -y git rsync nano curl \
-   python3 python3-pip fuse psmisc pkg-config \
+apt install -yy git rsync nano curl \
+   python3 python3-pip psmisc pkg-config \
    libattr1-dev libfuse-dev \
+   fuse3 libfuse3-dev \
    libsqlite3-dev libjs-sphinxdoc tzdata
-   #texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-generic-extra \
+   #fuse texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-generic-extra \
    #texlive-fonts-recommended
 #pip3 install --upgrade pip
 pip3 install https://github.com/rogerbinns/apsw/releases/download/3.8.2-r1/apsw-3.8.2-r1.zip
 pip3 install prometheus_client cython pycrypto \
-    defusedxml requests "llfuse >= 1.0, < 2.0" "dugong >= 3.4, < 4.0" "pytest >= 2.7" 
-    #pytest-catchlog sphinx
-    #cython==0.24.1
-
+    defusedxml requests cryptography \
+    "dugong >= 3.4, < 4.0" "pytest >= 3.7" "pyfuse3<2.0,>=1.0"
+    
 pip3 install --upgrade google-api-python-client
 pip3 install --upgrade oauth2client
 pip3 install --upgrade google-auth-oauthlib
-
-# Fuse3
-apt install -y fuse3 libfuse3-dev
-pip3 install pyfuse3 cryptography
 
 echo "download s3ql code"
 git clone https://github.com/segator/s3ql.git -b feature/gdrive-stable
