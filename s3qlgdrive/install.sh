@@ -12,7 +12,9 @@ apt install -yy git rsync nano curl \
    #fuse texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-generic-extra \
    #texlive-fonts-recommended
 #pip3 install --upgrade pip
-pip3 install https://github.com/rogerbinns/apsw/releases/download/3.8.2-r1/apsw-3.8.2-r1.zip
+#pip3 install https://github.com/rogerbinns/apsw/releases/download/3.8.2-r1/apsw-3.8.2-r1.zip
+pip3 install https://github.com/rogerbinns/apsw/releases/download/3.32.2-r1/apsw-3.32.2-r1-sigs.zip
+pip3 install https://github.com/python-trio/trio/archive/v0.16.0.zip
 pip3 install prometheus_client cython pycrypto \
     defusedxml requests cryptography \
     "dugong >= 3.4, < 4.0" "pytest >= 3.7" "pyfuse3<2.0,>=1.0"
