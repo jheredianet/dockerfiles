@@ -13,18 +13,18 @@ apt install -yy git rsync nano curl \
    #texlive-fonts-recommended
 #pip3 install --upgrade pip
 #pip3 install https://github.com/rogerbinns/apsw/releases/download/3.8.2-r1/apsw-3.8.2-r1.zip
-pip3 install https://github.com/rogerbinns/apsw/releases/download/3.32.2-r1/apsw-3.32.2-r1-sigs.zip
+pip3 install https://github.com/rogerbinns/apsw/releases/download/3.31.1-r1/apsw-3.31.1-r1.zip
 pip3 install https://github.com/python-trio/trio/archive/v0.16.0.zip
 pip3 install prometheus_client cython pycrypto \
     defusedxml requests cryptography \
-    "dugong >= 3.4, < 4.0" "pytest >= 3.7" "pyfuse3<2.0,>=1.0"
+    "dugong >= 3.4, < 4.0" "pytest >= 3.7" "pyfuse3<4.0,>=3.0"
     
 pip3 install --upgrade google-api-python-client
 pip3 install --upgrade oauth2client
 pip3 install --upgrade google-auth-oauthlib
 
 echo "download s3ql code"
-git clone https://github.com/segator/s3ql.git -b feature/gdrive-stable
+git clone https://github.com/segator/s3ql.git -b gdrive
 #git clone https://github.com/jheredianet/s3ql.git -b skipfsck
 
 cd s3ql
