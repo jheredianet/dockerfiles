@@ -16,7 +16,7 @@ docker run -dit --name my-net-app -p 8080:80 \
 
 ## Version Info
 
-2018-11-07: First release.
+2018-11-07: First release - Apache with NetCore.
 
 ## Authors
 
