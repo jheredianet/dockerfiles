@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:latest
 LABEL maintainer="jchm@infoinnova.net"
 
 COPY install.sh /install.sh
