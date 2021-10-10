@@ -1,7 +1,7 @@
 #! /bin/bash -e
 
 # Let's update the last version
-wget http://updates.jenkins-ci.org/latest/jenkins.war -O /tmp/jenkins.war && \
+#wget http://updates.jenkins-ci.org/latest/jenkins.war -O /tmp/jenkins.war && \
 #: "${JENKINS_WAR:="/usr/share/jenkins/jenkins.war"}"
 # let's use that version
 : "${JENKINS_WAR:="/tmp/jenkins.war"}"
