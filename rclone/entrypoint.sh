@@ -14,7 +14,6 @@ ulimit -n $OPEN_FILES_DESCRIPTOR
 
 echo "Preparing volumen on $MOUNTPOINT"
 # Convertimos a segundos
-mkdir -p "$MOUNTPOINT"
 mkdir -p "$LOCAL_FOLDER"
 mkdir -p "$CLONE_FOLDER"
 mkdir -p "$CACHE_FOLDER"
