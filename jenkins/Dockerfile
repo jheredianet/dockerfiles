@@ -1,4 +1,4 @@
-FROM jenkins/jenkins
+FROM jenkins/jenkins:lts-jdk11
 LABEL maintainer="jchm@infoinnova.net"
 # if we want to install via apt
 USER root
