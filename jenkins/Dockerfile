@@ -1,10 +1,10 @@
-FROM jenkins/jenkins:lts-jdk11
+FROM jenkins/jenkins
 LABEL maintainer="jchm@infoinnova.net"
 # if we want to install via apt
 USER root
 RUN apt-get update && \
     apt-get upgrade -yy && \
-    apt-get install -yy wget && \
+    apt-get install -yy wget rsync && \
     wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
     dpkg -i packages-microsoft-prod.deb && \
     rm packages-microsoft-prod.deb && \
@@ -18,5 +18,5 @@ RUN apt-get update && \
 USER jenkins
 
 # Add a custom file
-# COPY jenkins/run/jenkins.sh /usr/local/bin/jenkins.sh
-# RUN chmod +x /usr/local/bin/jenkins.sh
+COPY jenkins/run/jenkins.sh /usr/local/bin/jenkins.sh
+RUN chmod +x /usr/local/bin/jenkins.sh
