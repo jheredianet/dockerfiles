@@ -13,10 +13,9 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y dotnet-sdk-5.0
 
-
-# drop back to the regular jenkins user - good practice
-USER jenkins
-
 # Add a custom file
 COPY jenkins/run/jenkins.sh /usr/local/bin/jenkins.sh
 RUN chmod +x /usr/local/bin/jenkins.sh
+
+# drop back to the regular jenkins user - good practice
+USER jenkins
