@@ -13,6 +13,7 @@ apt install -y build-essential zlib1g-dev libncurses5-dev \
     libsqlite3-dev libjs-sphinxdoc tzdata
 
 curl https://www.python.org/ftp/python/3.9.12/Python-3.9.12.tgz -o Python-3.9.12.tgz
+tar -xf Python-3.9.12.tgz
 cd Python-3.9.12
 ./configure --enable-optimizations
 make -j 12
@@ -32,6 +33,7 @@ pip3 install pyfuse3 cryptography
 
 cd /
 rm -rf Python-3.9.12
+rm Python-3.9.12.tgz
 
 echo "download s3ql code"
 git clone https://github.com/s3ql/s3ql.git
