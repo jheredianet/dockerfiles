@@ -8,7 +8,7 @@ apt update -qq && apt upgrade -qq
 apt install -y build-essential zlib1g-dev libncurses5-dev \
     libgdbm-dev libnss3-dev libssl-dev libreadline-dev \
     libffi-dev libsqlite3-dev wget curl libbz2-dev git \
-    fuse psmisc pkg-config \
+    fuse psmisc pkg-config liblzma-dev\
     libattr1-dev libfuse-dev \
     libsqlite3-dev libjs-sphinxdoc tzdata
 
