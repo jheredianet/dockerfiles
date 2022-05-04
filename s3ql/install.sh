@@ -48,6 +48,9 @@ python3.9 setup.py install
 #cd /
 #rm -rf s3ql
 
+# make a symbolic link 
+ln -s /usr/local/bin/python3.9 /usr/local/bin/python3  
+
 echo "cleanup compilations tools"
 apt-get remove --purge -y git
 apt autoremove -y && apt autoclean -y && apt clean -y
