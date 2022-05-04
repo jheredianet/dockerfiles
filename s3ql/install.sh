@@ -45,8 +45,8 @@ python3.9 setup.py build_ext --inplace
 
 echo "install s3ql"
 python3.9 setup.py install
-cd /
-rm -rf s3ql
+#cd /
+#rm -rf s3ql
 
 echo "cleanup compilations tools"
 apt-get remove --purge -y git
