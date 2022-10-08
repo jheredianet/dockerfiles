@@ -19,12 +19,14 @@ RUN \
 		apt-utils \
 		nginx \
 		mysql-client \
-		graphicsmagick ffmpeg pwgen wget unzip && \
+		graphicsmagick ffmpeg pwgen wget unzip git apt-transport-https build-essential pkg-config
+RUN \
 	apt-get install -y \
-	    php8.0 php8.0-fpm php8.0-mysql php8.0-curl php8.0-mcrypt php8.0-gd \
-		php-xmlrpc  \
-		libapache2-mod-php8.0 php8.0-fpm libapache2-mod-fcgid php8.0-curl \
-		php8.0-dev php8.0-gd php8.0-mbstring php8.0-zip php8.0-mysql php8.0-xml
+		php8.0 php8.0-fpm php8.0-mysql php8.0-curl php8.0-mcrypt php8.0-gd php8.0-common \
+		php-xmlrpc  php-intl php8.0-intl php8.0-cli php8.0-bcmath php8.0-imap php8.0-opcache \
+		libapache2-mod-php8.0 php8.0-fpm libapache2-mod-fcgid php8.0-curl php8.0-readline php8.0-soap \
+		php8.0-dev php8.0-gd php8.0-mbstring php8.0-zip php8.0-mysql php8.0-xml php8.0-imagick
+
     # python-software-properties  php-simplexml (seems to be not neccesary)
 
 # Configuration
