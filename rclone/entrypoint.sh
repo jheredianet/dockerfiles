@@ -19,7 +19,7 @@ mkdir -p "$CLONE_FOLDER"
 mkdir -p "$CACHE_FOLDER"
 
 # enable crontab
-echo "0 */$HOURS_RCLONE_MOVE * * * /usr/bin/rclone move --config $CONFIG --log-file=$LOGFILE --log-level INFO --delete-empty-src-dirs --fast-list --min-age 6h --exclude=/mnt/local/latest/tmp/** $LOCAL_FOLDER/latest $MOUNTCONFIG:/latest" > /etc/cron.d/rclonemove-cron
+echo "@hourly /usr/bin/rclone move --config $CONFIG --log-file=$LOGFILE --log-level INFO --delete-empty-src-dirs --fast-list --min-age $HOURS_RCLONE_MOVE --exclude=$LOCAL_FOLDER/tmp/** $LOCAL_FOLDER $MOUNTCONFIG" > /etc/cron.d/rclonemove-cron
 chmod +x /etc/cron.d/rclonemove-cron
 crontab /etc/cron.d/rclonemove-cron
 
@@ -36,7 +36,7 @@ trap disconnect  SIGTERM
     --log-file="$LOGFILE" \
     $BASIC_FLAGS \
     $OTHER_FLAGS \
-    $MOUNTCONFIG:/ "$CLONE_FOLDER" & 
+    $MOUNTCONFIG "$CLONE_FOLDER" & 
 
 /usr/bin/mergerfs \
     "$LOCAL_FOLDER":"$CLONE_FOLDER" "$MOUNTPOINT" \
