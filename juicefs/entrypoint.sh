@@ -21,12 +21,11 @@ mkdir -p "$MOUNTPOINT"
 echo "mount juiceFS to $MOUNTPOINT"
 
 # Enable Webdav
-
-rclone serve webdav \
-    --config $CONFIG \
-    --addr localhost:8080 \
-    --log-file="$LOGFILE" \
-    $MOUNTCONFIG:$MOUNTPATH & 
+#rclone serve webdav \
+#    --config $CONFIG \
+#    --addr localhost:8080 \
+#    --log-file="$LOGFILE" \
+#    $MOUNTCONFIG:$MOUNTPATH & 
 
 juicefs mount -d -o allow_other \
     --log $LOGFILE \
