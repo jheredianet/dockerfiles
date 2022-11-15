@@ -28,7 +28,7 @@ mkdir -p "$MOUNTPOINT"
 echo "mount juiceFS to $MOUNTPOINT"
 
 # Enable Redis
-if [ -f “/config/redis.conf” ]; then
+if [ -f "/config/redis.conf" ]; then
     sysctl vm.overcommit_memory=1
     redis-server /config/redis.conf --logfile $REDIS_LOGFILE &
 fi
