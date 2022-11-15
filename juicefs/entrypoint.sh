@@ -28,8 +28,10 @@ mkdir -p "$MOUNTPOINT"
 echo "mount juiceFS to $MOUNTPOINT"
 
 # Enable Redis
-sysctl vm.overcommit_memory=1
-redis-server /config/redis.conf --logfile $REDIS_LOGFILE &
+if [ -f “/config/redis.conf” ]; then
+    sysctl vm.overcommit_memory=1
+    redis-server /config/redis.conf --logfile $REDIS_LOGFILE &
+fi
 
 # Enable Webdav
 if [[ -n "$MOUNTCONFIG" ]]
