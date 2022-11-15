@@ -5,7 +5,7 @@ set -e
 # S3QL_EXPORTER_ID=""
 function disconnect() {
     echo "unmounting $MOUNTPOINT"
-    umount "$MOUNTPOINT"
+    juicefs umount --force "$MOUNTPOINT"
     echo "Stop Success!!"
 }
 
@@ -20,18 +20,25 @@ mkdir -p "$CACHE_PATH"
 mkdir -p "$MOUNTPOINT"
 echo "mount juiceFS to $MOUNTPOINT"
 
+# Enable Redis
+sysctl vm.overcommit_memory=1
+redis-server /config/redis.conf --logfile $LOGFILE &
+
 # Enable Webdav
-#rclone serve webdav \
-#    --config $CONFIG \
-#    --addr localhost:8080 \
-#    --log-file="$LOGFILE" \
-#    $MOUNTCONFIG:$MOUNTPATH & 
+if [[ -n "$MOUNTCONFIG" ]]
+then
+    rclone serve webdav \
+        --config $CONFIG \
+        --addr localhost:8080 \
+        --log-file="$LOGFILE" \
+        $MOUNTCONFIG:$MOUNTPATH & 
+fi
 
 juicefs mount -d -o allow_other \
     --log $LOGFILE \
     --cache-dir $CACHE_PATH \
     --cache-size $CACHE_SIZE \
-    "mysql://$DB_USER:$DB_PASS@($DB_URL)/$DB_NAME" $MOUNTPOINT
+    $META_DATA $MOUNTPOINT
 
 trap disconnect  SIGINT
 trap disconnect  SIGTERM
