@@ -31,6 +31,7 @@ echo "mount juiceFS to $MOUNTPOINT"
 if [ -f "/config/redis.conf" ]; then
     sysctl vm.overcommit_memory=1
     redis-server /config/redis.conf --logfile $REDIS_LOGFILE &
+    sleep 5 
 fi
 
 # Enable Webdav
@@ -41,6 +42,7 @@ then
         --addr localhost:8080 \
         --log-file="$RCLONE_LOGFILE" \
         $MOUNTCONFIG:$MOUNTPATH & 
+    sleep 5 
 fi
 
 juicefs mount -d -o allow_other \
