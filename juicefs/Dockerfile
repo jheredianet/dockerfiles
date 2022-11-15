@@ -10,7 +10,7 @@ RUN chmod +x /setup/entrypoint.sh
 
 ENV \
     CONFIG="/config/rclone.conf" \
-    MOUNTCONFIG="RCLONECONFIGNAME" \
+    MOUNTCONFIG="" \
     MOUNTPATH="/Path" \
     CACHE_PATH="/mnt/cache" \
     CACHE_SIZE="100" \
