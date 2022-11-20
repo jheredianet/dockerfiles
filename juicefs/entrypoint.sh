@@ -41,6 +41,7 @@ then
         --config $CONFIG \
         --addr localhost:8080 \
         --log-file="$RCLONE_LOGFILE" \
+        --transfers 32 --checkers 32 \
         $MOUNTCONFIG:$MOUNTPATH & 
     sleep 5 
 fi
