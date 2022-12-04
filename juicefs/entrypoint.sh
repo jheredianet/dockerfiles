@@ -47,7 +47,7 @@ then
 fi
 
 juicefs mount -d -o allow_other \
-    --writeback --log $JUICE_LOGFILE \
+    $JUICEFS_OPTIONS --log $JUICE_LOGFILE \
     --cache-dir $CACHE_PATH \
     --cache-size $CACHE_SIZE \
     $META_DATA $MOUNTPOINT

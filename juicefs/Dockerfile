@@ -15,6 +15,7 @@ ENV \
     CACHE_PATH="/mnt/cache" \
     CACHE_SIZE="100" \
     META_DATA="" \
+    JUICEFS_OPTIONS="" \
     MOUNTPOINT="/mnt/mountpoint" \
     TZ="Europe/Madrid"
 
