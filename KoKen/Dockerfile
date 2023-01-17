@@ -1,5 +1,5 @@
 FROM phusion/baseimage:master
-LABEL maintainer="jchm@infoinnova.net"
+LABEL maintainer="@jheredianet"
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV HOME /root

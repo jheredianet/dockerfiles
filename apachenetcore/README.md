@@ -22,6 +22,4 @@ docker run -dit --name my-net-app -p 8080:80 \
 
 * **Juan Carlos Heredia** - *Initial work* - [InfoInnova](https://infoinnova.net)
 
-Mail me: [Juan Carlos Heredia](mailto:jchm@infoinnova.net)
-
 [More about me](https://about.me/juancarlosherediamayer)

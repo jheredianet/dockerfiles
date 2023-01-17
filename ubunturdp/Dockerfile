@@ -1,5 +1,5 @@
 FROM ubuntu:18.04 as builder
-LABEL maintainer="Juan Carlos Heredia <jchm@infoinnova.net>"
+LABEL maintainer="@jheredianet>"
 
 # Install packages
 

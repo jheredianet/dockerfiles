@@ -1,5 +1,5 @@
 FROM python:3.10-alpine
-LABEL maintainer="jchm@infoinnova.net"
+LABEL maintainer="@jheredianet"
 
 ADD install.sh /setup/install.sh
 RUN chmod +x /setup/install.sh

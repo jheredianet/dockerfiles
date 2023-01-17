@@ -1,5 +1,5 @@
 FROM linuxserver/duplicati
-LABEL maintainer="jchm@infoinnova.net"
+LABEL maintainer="@jheredianet"
 
 RUN apt update -yy && apt install man -yy
 RUN curl https://rclone.org/install.sh | bash

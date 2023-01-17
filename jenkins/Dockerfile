@@ -1,5 +1,5 @@
 FROM jenkins/jenkins:lts-jdk11
-LABEL maintainer="jchm@infoinnova.net"
+LABEL maintainer="@jheredianet"
 # if we want to install via apt
 USER root
 RUN apt-get update && \

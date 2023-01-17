@@ -1,5 +1,5 @@
 FROM ubuntu:18.04
-LABEL maintainer="jchm@infoinnova.net"
+LABEL maintainer="@jheredianet"
 
 # Prepare environment
 

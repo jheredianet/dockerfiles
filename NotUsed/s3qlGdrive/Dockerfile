@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER Juan Carlos Heredia Mayer <jchm@infoinnova.net>
+LABEL maintainer="@jheredianet"
 
 # Update package cache and install dependencies
 RUN apt-get update && apt-get upgrade -y && \
@@ -10,7 +10,7 @@ RUN apt-get update && apt-get upgrade -y && \
     pip3 install --upgrade google-api-python-client && \
     pip3 install llfuse && \
     apt-get install s3ql sqlite3 libsqlite3-dev cython nfs-common -y && \
-    cd root && git clone https://github.com/segator/s3ql.git -b gdrive && cd s3ql && \
+    cd root && git clone https://github.com/jheredianet/s3ql.git -b gdrive && cd s3ql && \
     python3 setup.py build_cython && \
     python3 setup.py build_ext --inplace && \
     python3 setup.py install

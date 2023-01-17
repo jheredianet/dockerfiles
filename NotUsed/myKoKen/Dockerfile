@@ -1,5 +1,5 @@
 FROM phusion/baseimage
-MAINTAINER Brad Daily <jchm@infoinnova.net>
+LABEL maintainer="@jheredianet"
 
 ENV HOME /root
 

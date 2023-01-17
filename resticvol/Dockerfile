@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-LABEL maintainer="jchm@infoinnova.net"
+LABEL maintainer="@jheredianet"
 
 ADD install.sh /setup/install.sh
 RUN chmod +x /setup/install.sh

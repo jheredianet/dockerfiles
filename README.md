@@ -43,6 +43,4 @@ This project is free licensed.
 * Inspiration
 * etc
 
-Mail me: [Juan Carlos Heredia](mailto:jchm@infoinnova.net)
-
 [More about me](https://about.me/juancarlosherediamayer)

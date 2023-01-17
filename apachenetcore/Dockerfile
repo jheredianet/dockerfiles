@@ -1,5 +1,5 @@
 FROM httpd
-LABEL maintainer="jchm@infoinnova.net"
+LABEL maintainer="@jheredianet"
 
 ENV NETCOREAPP_PATH=""
 
