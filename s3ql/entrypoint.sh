@@ -9,7 +9,6 @@ function disconnect() {
 
     #echo "stoping prometheus"
     #kill $S3QL_EXPORTER_ID    
- 
     # echo "cleaning temporals"
     # rm -rf "${S3QL_CACHE_PATH}/*"
     echo "Stop Success!!"
@@ -71,10 +70,6 @@ mount.s3ql \
     --metadata-upload-interval $S3QL_METADATA_UPLOAD_INTERVAL \
     --threads $S3QL_THREADS --nfs --allow-other \
     $BACKEND_OPTIONS "$STORAGE_URL" "$S3QL_MOUNTPOINT"
-
-#echo "run prometheus exporter on port ${S3QL_PROMETHEUS_PORT}"
-#s3qlstat "$S3QL_MOUNTPOINT" --prometheus_port $S3QL_PROMETHEUS_PORT --prometheus_exporter &
-#S3QL_EXPORTER_ID=$!
 
 # Make sure the file system is unmounted when we are done
 # Note that this overwrites the earlier trap, so we
