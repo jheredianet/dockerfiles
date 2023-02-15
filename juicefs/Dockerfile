@@ -10,10 +10,10 @@ RUN chmod +x /setup/entrypoint.sh
 
 ENV \
     CONFIG="/config/rclone.conf" \
-    MOUNTCONFIG="" \
-    MOUNTPATH="/Path" \
+    MOUNTCONFIG="dataTD" \
+    MOUNTPATH="/path" \
     CACHE_PATH="/mnt/cache" \
-    CACHE_SIZE="100" \
+    CACHE_SIZE="50" \
     META_DATA="" \
     JUICEFS_OPTIONS="" \
     MOUNTPOINT="/mnt/mountpoint" \
