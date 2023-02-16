@@ -16,6 +16,7 @@ ENV \
     CACHE_SIZE="50" \
     META_DATA="" \
     JUICEFS_OPTIONS="" \
+    RCLONE_OPTIONS="--vfs-cache-mode=full --transfers 32 --checkers 32" \
     MOUNTPOINT="/mnt/mountpoint" \
     TZ="Europe/Madrid"
 
