@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu
 LABEL maintainer="@jheredianet"
 
 ADD install.sh /setup/install.sh
@@ -9,7 +9,7 @@ ADD entrypoint.sh /setup/entrypoint.sh
 RUN chmod +x /setup/entrypoint.sh
 
 ENV \
-    HOURS_RCLONE_MOVE="6h" \
+    HOURS_RCLONE_MOVE="3h" \
     CONFIG="/config/rclone.conf" \
     MOUNTCONFIG="RCLONECONFIGNAME" \
     MOUNTPATH="/Path" \
