@@ -14,7 +14,7 @@ ulimit -n $OPEN_FILES_DESCRIPTOR
 
 echo "Preparing volumen on $MOUNTPOINT"
 # Convertimos a segundos
-mkdir -p "$LOCAL_FOLDER"
+mkdir -p "$LOCAL_FOLDER$MOUNTPATH"
 mkdir -p "$CLONE_FOLDER"
 mkdir -p "$CACHE_FOLDER"
 
@@ -39,7 +39,7 @@ trap disconnect  SIGTERM
     $MOUNTCONFIG:$MOUNTPATH "$CLONE_FOLDER" & 
 
 /usr/bin/mergerfs \
-    "$LOCAL_FOLDER":"$CLONE_FOLDER" "$MOUNTPOINT" \
+    "$LOCAL_FOLDER$MOUNTPATH":"$CLONE_FOLDER" "$MOUNTPOINT" \
     -o rw,use_ino,allow_other,func.getattr=newest,category.action=all,category.create=ff,cache.files=auto-full
 
 /usr/sbin/cron
