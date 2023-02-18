@@ -47,8 +47,16 @@ mkdir -p "$RCLONE_MOUNTPOINT"
     --log-file="$LOGFILE" \
     $RCLONE_FLAGS \
     $RCLONE_CONFIG_NAME:$RCLONE_CLOUD_PATH "$RCLONE_MOUNTPOINT" & 
-echo "Rclone mounted on $RCLONE_MOUNTPOINT"
-sleep 5
+echo "Rclone mounting on $RCLONE_MOUNTPOINT"
+
+# wait until volumen is mounted
+while ! mount | grep "$RCLONE_MOUNTPOINT" > /dev/null; do
+    echo "Waiting for Volumen $RCLONE_MOUNTPOINT to be ready..."
+    sleep 1 # espera un segundo antes de verificar de nuevo
+done
+
+echo "Volumen $RCLONE_MOUNTPOINT mounted"
+
 
 # Delete temporary files if exist (Usually when the vol is not unmounted correctly)
 find "$S3QL_CACHE_PATH" -name *.tmp -delete
@@ -78,6 +86,8 @@ mount.s3ql \
     --metadata-upload-interval $S3QL_METADATA_UPLOAD_INTERVAL \
     --threads $S3QL_THREADS --nfs --allow-other \
     $BACKEND_OPTIONS "$STORAGE_URL" "$S3QL_MOUNTPOINT"
+
+echo "Volumen $S3QL_MOUNTPOINT mounted"
 
 # Make sure the file system is unmounted when we are done
 # Note that this overwrites the earlier trap, so we
