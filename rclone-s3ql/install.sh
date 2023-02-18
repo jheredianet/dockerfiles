@@ -10,8 +10,9 @@ apt install -y build-essential zlib1g-dev libncurses5-dev \
     libffi-dev libsqlite3-dev wget curl libbz2-dev git \
     fuse psmisc pkg-config liblzma-dev\
     libattr1-dev libfuse-dev \
-    libsqlite3-dev libjs-sphinxdoc tzdata rclone
+    libsqlite3-dev libjs-sphinxdoc tzdata unzip
 
+curl https://rclone.org/install.sh | bash
 curl https://www.python.org/ftp/python/3.9.12/Python-3.9.12.tgz -o Python-3.9.12.tgz
 tar -xf Python-3.9.12.tgz
 cd Python-3.9.12
