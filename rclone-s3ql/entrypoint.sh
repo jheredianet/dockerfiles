@@ -45,6 +45,7 @@ mkdir -p "$RCLONE_MOUNTPOINT"
     --allow-other \
     --config $RCLONE_CONFIG_FILE \
     --log-file="$LOGFILE" \
+    --cache-dir="$S3QL_CACHE_PATH" \
     $RCLONE_FLAGS \
     $RCLONE_CONFIG_NAME:$RCLONE_CLOUD_PATH "$RCLONE_MOUNTPOINT" & 
 echo "Rclone mounting on $RCLONE_MOUNTPOINT"
