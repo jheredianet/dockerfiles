@@ -1,6 +1,10 @@
-cd /teslamate-abrp
-echo "Updating repository..."
-git pull
+if [ -d "/teslamate-abrp" ]; then
+    # If exists just update
+    echo "Updating repository..."
+    git -C /teslamate-abrp pull
+else # if not pull for the first time
+    echo "Getting repository for the firstime..."
+    git clone --branch $GIT_BRANCH https://github.com/jheredianet/teslamate-abrp.git /teslamate-abrp
+fi
 echo "Running daemon..."
-python -u ./teslamate_mqtt2abrp.py -a
-
+python -u /teslamate-abrp/teslamate_mqtt2abrp.py -a

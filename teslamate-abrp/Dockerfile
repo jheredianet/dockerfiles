@@ -1,5 +1,7 @@
-FROM python:3.10-alpine
+FROM python:alpine
 LABEL maintainer="@jheredianet"
+
+ENV GIT_BRANCH="develop"
 
 ADD install.sh /setup/install.sh
 RUN chmod +x /setup/install.sh
