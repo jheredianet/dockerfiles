@@ -6,6 +6,7 @@ set -e
 function disconnect() {
     echo "unmounting $S3QL_MOUNTPOINT"
     umount.s3ql "$S3QL_MOUNTPOINT"
+    sleep 1 # espera un segundo antes de continuar
     umount "$RCLONE_MOUNTPOINT"
     echo "Stop Success!!"
 }
@@ -64,9 +65,8 @@ find "$S3QL_CACHE_PATH" -name *.tmp -delete
 
 # Recover cache if e.g. system was shut down while fs was mounted
 echo "check s3ql corruption"
-fsck.s3ql \
+echo "continue, I know what I am doing" | fsck.s3ql \
     --log  "$LOGFILE" \
-    --batch \
     --keep-cache \
     --cachedir "$S3QL_CACHE_PATH" \
     --compress $COMPRESS_METHOD \
