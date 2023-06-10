@@ -3,12 +3,12 @@ export DEBIAN_FRONTEND=noninteractive
 
 echo "install compilation tools and dependencies"
 echo "Begining..."
-apt update -qq && apt upgrade -qq
+apt update -yy && apt upgrade -yy
 
 apt install -y build-essential zlib1g-dev libncurses5-dev \
     libgdbm-dev libnss3-dev libssl-dev libreadline-dev \
     libffi-dev libsqlite3-dev wget curl libbz2-dev git \
-    fuse psmisc pkg-config liblzma-dev\
+    fuse psmisc pkg-config liblzma-dev \
     libattr1-dev libfuse-dev \
     libsqlite3-dev libjs-sphinxdoc tzdata unzip
 
@@ -20,8 +20,11 @@ cd Python-3.9.12
 make -j 12
 make altinstall
 
+# make a symbolic link 
+ln -s /usr/local/bin/python3.9 /usr/local/bin/python3
+
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python3.9 get-pip.py
+python3 get-pip.py
 
 pip3 install https://github.com/rogerbinns/apsw/releases/download/3.8.2-r1/apsw-3.8.2-r1.zip
 pip3 install cython pycrypto \
@@ -41,14 +44,11 @@ git clone https://github.com/s3ql/s3ql.git
 
 cd s3ql
 echo "compile s3ql"
-python3.9 setup.py build_cython
-python3.9 setup.py build_ext --inplace
+python3 setup.py build_cython
+python3 setup.py build_ext --inplace
 
 echo "install s3ql"
-python3.9 setup.py install
-
-# make a symbolic link 
-ln -s /usr/local/bin/python3.9 /usr/local/bin/python3  
+python3 setup.py install
 
 echo "cleanup compilations tools"
 apt-get remove --purge -y git
