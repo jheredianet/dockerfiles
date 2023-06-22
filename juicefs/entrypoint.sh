@@ -33,11 +33,12 @@ if [ -f "/config/redis.conf" ]; then
     export REDIS_PORT=$(cat /config/redis.conf | grep port | cut -d' ' -f 2)
     sysctl vm.overcommit_memory=1
     redis-server /config/redis.conf --logfile $REDIS_LOGFILE &
+    sleep 1
     while true; do
+        sleep 1
         if redis-cli --no-auth-warning -h localhost -p $REDIS_PORT -a $REDIS_PASS ping | grep -q "PONG"; then
             break
         fi
-        sleep 1
     done
 fi
 
