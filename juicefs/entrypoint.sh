@@ -13,8 +13,8 @@ function disconnect() {
     echo "Stop Success!!"
 }
 
-# Cache Size
-export CACHE_SIZE=$((${CACHE_SIZE}*1024*1024))
+# Cache Size - GB to MiB Conversion - 1 GB = 953.67431640625 MiB
+export CACHE_SIZE=$((${CACHE_SIZE}*954))
 
 # Log Files
 mkdir -p "$CACHE_PATH"
