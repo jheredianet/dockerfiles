@@ -13,6 +13,9 @@ function disconnect() {
     echo "Stop Success!!"
 }
 
+export OPEN_FILES_DESCRIPTOR=999999
+ulimit -n $OPEN_FILES_DESCRIPTOR
+
 # Cache Size - GB to MiB Conversion - 1 GB = 953.67431640625 MiB
 export CACHE_SIZE=$((${CACHE_SIZE}*954))
 
