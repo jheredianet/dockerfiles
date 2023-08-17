@@ -36,8 +36,8 @@ rm -rf Python-3.9.12
 rm Python-3.9.12.tgz
 
 echo "download s3ql code"
-#git clone https://github.com/s3ql/s3ql.git
-git clone https://github.com/jheredianet/s3ql.git -b gdrive
+git clone https://github.com/s3ql/s3ql.git
+#git clone https://github.com/jheredianet/s3ql.git -b gdrive
 
 cd s3ql
 echo "compile s3ql"
