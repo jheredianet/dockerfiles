@@ -48,7 +48,7 @@ mkdir -p "$S3QL_CACHE_PATH"
 echo "check s3ql corruption"
 fsck.s3ql \
     --log  "$LOGFILE" \
-    --batch \
+    --force-remote \
     --keep-cache \
     --cachedir "$S3QL_CACHE_PATH" \
     --compress $COMPRESS_METHOD \
