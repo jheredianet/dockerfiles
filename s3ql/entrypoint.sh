@@ -67,7 +67,7 @@ mount.s3ql \
     --authfile /credentials \
     --keep-cache \
     --compress $COMPRESS_METHOD \
-    --metadata-upload-interval $S3QL_METADATA_UPLOAD_INTERVAL \
+    --metadata-backup-interval $S3QL_METADATA_UPLOAD_INTERVAL \
     --threads $S3QL_THREADS --nfs --allow-other \
     $BACKEND_OPTIONS "$STORAGE_URL" "$S3QL_MOUNTPOINT"
 
