@@ -31,6 +31,7 @@ export CACHE_S3QL_SIZE=$((${CACHE_S3QL_SIZE}*1024*1024))
 
 # Log File
 export LOGFILE="$S3QL_CACHE_PATH/vol.log"
+export RCLONE_LOGFILE="$S3QL_CACHE_PATH/rclone.log"
 
 if [ ! -z "${BACKEND_OPTIONS}" ]; then
     export BACKEND_OPTIONS='--backend-options "$BACKEND_OPTIONS"'
@@ -45,7 +46,7 @@ mkdir -p "$RCLONE_MOUNTPOINT"
 /usr/bin/rclone mount \
     --allow-other \
     --config $RCLONE_CONFIG_FILE \
-    --log-file="$LOGFILE" \
+    --log-file="$RCLONE_LOGFILE" \
     --cache-dir="$S3QL_CACHE_PATH" \
     $RCLONE_FLAGS \
     $RCLONE_CONFIG_NAME:$RCLONE_CLOUD_PATH "$RCLONE_MOUNTPOINT" & 
@@ -65,8 +66,9 @@ find "$S3QL_CACHE_PATH" -name *.tmp -delete
 
 # Recover cache if e.g. system was shut down while fs was mounted
 echo "check s3ql corruption"
-echo "continue, I know what I am doing" | fsck.s3ql \
+fsck.s3ql \
     --log  "$LOGFILE" \
+    --force-remote \
     --keep-cache \
     --cachedir "$S3QL_CACHE_PATH" \
     --compress $COMPRESS_METHOD \
@@ -84,7 +86,7 @@ mount.s3ql \
     --authfile /credentials \
     --keep-cache \
     --compress $COMPRESS_METHOD \
-    --metadata-upload-interval $S3QL_METADATA_UPLOAD_INTERVAL \
+    --metadata-backup-interval $S3QL_METADATA_UPLOAD_INTERVAL \
     --threads $S3QL_THREADS --nfs --allow-other \
     $BACKEND_OPTIONS "$STORAGE_URL" "$S3QL_MOUNTPOINT"
 
@@ -96,4 +98,4 @@ echo "Volumen $S3QL_MOUNTPOINT mounted"
 trap disconnect  SIGINT
 trap disconnect  SIGTERM
 
-tail -f "$LOGFILE" & wait
+tail -f "$LOGFILE" "$RCLONE_CONFIG_FILE" & wait
