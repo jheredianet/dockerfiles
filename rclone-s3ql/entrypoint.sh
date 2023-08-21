@@ -98,4 +98,4 @@ echo "Volumen $S3QL_MOUNTPOINT mounted"
 trap disconnect  SIGINT
 trap disconnect  SIGTERM
 
-tail -f "$LOGFILE" "$RCLONE_CONFIG_FILE" & wait
+tail -f "$LOGFILE" "$RCLONE_LOGFILE" & wait
