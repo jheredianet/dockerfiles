@@ -47,22 +47,23 @@ pip3 install apsw pyfuse3 cryptography
 #rm Python-3.9.12.tgz
 
 echo "download s3ql code"
-#git clone https://github.com/s3ql/s3ql.git
+git clone https://github.com/s3ql/s3ql.git
 #git clone https://github.com/jheredianet/s3ql.git -b gdrive
-wget https://github.com/s3ql/s3ql/releases/download/s3ql-5.1.1/s3ql-5.1.1.tar.gz
-tar xvfz s3ql-*.tar.gz
+#wget https://github.com/s3ql/s3ql/releases/download/s3ql-5.1.1/s3ql-5.1.1.tar.gz
+#tar xvfz s3ql-*.tar.gz
 
-cd s3ql-5.1.1
+cd s3ql
 echo "compile s3ql"
-#python3 setup.py build_cython
+python3 setup.py build_cython
 python3 setup.py build_ext --inplace
 
 echo "install s3ql"
 python3 setup.py install
 
 cd /
-rm -rf s3ql-5.1.1/
-rm s3ql-5.1.1.tar.gz
+#rm -rf s3ql-5.1.1/
+rm -rf s3ql/
+#rm s3ql-5.1.1.tar.gz
 
 # make a symbolic link 
 #ln -s /usr/local/bin/python3.9 /usr/local/bin/python3  
