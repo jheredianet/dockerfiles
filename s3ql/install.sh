@@ -62,7 +62,10 @@ python3 setup.py install
 
 cd /
 #rm -rf s3ql-5.1.1/
+mv s3ql/contrib /contrib
 rm -rf s3ql/
+mkdir s3ql
+mv /contrib s3ql/contrib
 #rm s3ql-5.1.1.tar.gz
 
 # make a symbolic link 
