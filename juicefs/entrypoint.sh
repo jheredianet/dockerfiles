@@ -16,8 +16,8 @@ function disconnect() {
 export OPEN_FILES_DESCRIPTOR=999999
 ulimit -n $OPEN_FILES_DESCRIPTOR
 
-# Cache Size - GB to MiB Conversion - 1 GB = 953.67431640625 MiB
-export CACHE_SIZE=$((${CACHE_SIZE}*954))
+# Cache Size 
+export CACHE_SIZE=$((${CACHE_S3QL_SIZE}*1024*1024))
 
 # Log Files
 mkdir -p "$CACHE_PATH"
