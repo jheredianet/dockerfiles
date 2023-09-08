@@ -5,7 +5,7 @@ set -e
 # S3QL_EXPORTER_ID=""
 function disconnect() {
     echo "unmounting $MOUNTPOINT"
-    juicefs umount --force "$MOUNTPOINT"
+    juicefs umount --flush "$MOUNTPOINT"
     sleep 1
     if [ -f "/config/redis.conf" ]; then
         redis-cli --no-auth-warning -h localhost -p $REDIS_PORT -a $REDIS_PASS shutdown
