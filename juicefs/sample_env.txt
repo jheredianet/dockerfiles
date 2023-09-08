@@ -1,0 +1,17 @@
+ENV \
+    CONFIG="/config/rclone.conf" \
+    MOUNTCONFIG="dataTD" \
+    MOUNTPATH="/path" \
+    CACHE_PATH="/mnt/cache" \
+    CACHE_SIZE="50" \
+    META_DATA="" \
+    JUICEFS_OPTIONS="" \
+    RCLONE_OPTIONS="--vfs-cache-mode=full --transfers 32 --checkers 32" \
+    MOUNTPOINT="/mnt/mountpoint" \
+    TZ="Europe/Madrid"
+
+
+
+    RCLONE_ONEDRIVE = --vfs-cache-mode=off --no-checksum --no-modtime --vfs-fast-fingerprint --transfers 40 --checkers 40
+    RCLONE_OPTIONS = --vfs-cache-mode=minimal --user-agent=rclone
+    META_DATA = redis://:sync-5vy-XZEs34LGKe_8dMv@localhost:56379

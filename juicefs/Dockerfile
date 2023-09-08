@@ -9,14 +9,14 @@ COPY entrypoint.sh /setup/entrypoint.sh
 RUN chmod +x /setup/entrypoint.sh
 
 ENV \
-    CONFIG="/config/rclone.conf" \
-    MOUNTCONFIG="dataTD" \
-    MOUNTPATH="/path" \
+    CONFIG="" \
+    MOUNTCONFIG="" \
+    MOUNTPATH="" \
     CACHE_PATH="/mnt/cache" \
     CACHE_SIZE="50" \
     META_DATA="" \
     JUICEFS_OPTIONS="" \
-    RCLONE_OPTIONS="--vfs-cache-mode=full --transfers 32 --checkers 32" \
+    RCLONE_OPTIONS="" \
     MOUNTPOINT="/mnt/mountpoint" \
     TZ="Europe/Madrid"
 
