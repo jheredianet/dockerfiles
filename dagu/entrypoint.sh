@@ -25,12 +25,14 @@ wget -S ${RELEASES_URL}/download/${VERSION}/${TARGET_FILE} && \
 tar -xf ${TARGET_FILE} && rm *.tar.gz && \
 sudo mv dagu /usr/local/bin/
 
-echo "Startig Dagu version: $VERSION"
-
 trap disconnect  SIGINT
 trap disconnect  SIGTERM
 
+echo "Startig scheduler..."
+dagu scheduler &
+
 # run server
+echo "Startig Dagu version: $VERSION"
 dagu server
 
 #tail -f "$REDIS_LOGFILE" "$RCLONE_LOGFILE" "$JUICE_LOGFILE" & wait
