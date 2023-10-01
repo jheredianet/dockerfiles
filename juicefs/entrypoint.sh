@@ -17,7 +17,7 @@ export OPEN_FILES_DESCRIPTOR=999999
 ulimit -n $OPEN_FILES_DESCRIPTOR
 
 # Cache Size 
-export CACHE_SIZE=$((${CACHE_SIZE}*1024*1024))
+export CACHE_SIZE=$((${CACHE_SIZE}*1024))
 
 # Log Files
 mkdir -p "$CACHE_PATH"
