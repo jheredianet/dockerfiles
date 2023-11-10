@@ -35,8 +35,8 @@ if [ -f "/config/redis.conf" ]; then
     export REDIS_PASS=$(cat /config/redis.conf | grep requirepass | cut -d' ' -f 2)
     export REDIS_PORT=$(cat /config/redis.conf | grep port | cut -d' ' -f 2)
     sysctl vm.overcommit_memory=1
-    echo never | tee /sys/kernel/mm/transparent_hugepage/enabled
-    echo never | tee /sys/kernel/mm/transparent_hugepage/defrag
+    #echo never | tee /sys/kernel/mm/transparent_hugepage/enabled
+    #echo never | tee /sys/kernel/mm/transparent_hugepage/defrag
     redis-server /config/redis.conf --logfile $REDIS_LOGFILE &
     sleep 1
     while true; do
