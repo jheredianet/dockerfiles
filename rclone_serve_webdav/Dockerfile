@@ -18,5 +18,5 @@ RUN apk add rclone
 
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
 
-# Configura el comando para ejecutar rclone serve s3
+# Configura el comando para ejecutar rclone serve webdav
 CMD ["/start.sh"]
