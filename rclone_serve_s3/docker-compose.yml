@@ -1,0 +1,25 @@
+services:
+  rclones3:
+    image: juanheredia/rclones3
+    container_name: rclones3
+    #ports:
+    #  - "9000:9000"
+    #  - "9001:9001"
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - /root/s3/repo:/repo
+    #entrypoint: ["/bin/ash"]
+    #stdin_open: true
+    #tty: true
+    environment:
+      - HTTP_USER=jchm
+      - HTTP_PASS=Secret0
+      - TZ=Europe/Madrid
+      - ACCESS_KEY_ID=yourkey
+      - SECRET_ACCESS_KEY=yoursecret
+      - RCLONE_LOG_LEVEL=DEBUG
+      - WEB_PORT=9000
+      - RC_PORT=9001
+      - PATH_TO_SERVE=/repo
+    
