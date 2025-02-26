@@ -8,4 +8,4 @@ else # if not pull for the first time
     pip install --quiet --no-color --no-cache-dir -r /teslamate-abrp/requirements.txt
 fi
 echo "Running daemon..."
-python -u /teslamate-abrp/teslamate_mqtt2abrp.py -a
+python -u /teslamate-abrp/teslamate_mqtt2abrp.py
