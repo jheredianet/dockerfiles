@@ -1,6 +1,15 @@
 FROM vstavrinov/acestream-service
 LABEL maintainer="@jheredianet"
 
+ENV \
+    P2P_PORT="8621" \
+    TZ="Europe/Madrid"
+
+USER root
+RUN apt update -yy && apt upgrade -yy && \
+    apt install net-tools
+
+USER ace
 CMD mkdir --verbose /dev/shm/.ACEStream;                    \
     mkdir --verbose /dev/shm/tmp;                           \
     cp --verbose --archive /etc/nginx /dev/shm;             \
@@ -15,7 +24,7 @@ CMD mkdir --verbose /dev/shm/.ACEStream;                    \
     /usr/sbin/nginx -c /dev/shm/nginx/nginx.conf &          \
     ./start-engine                                          \
         --client-console                                    \
+        --port ${P2P_PORT}                                  \
         --bind-all                                          \
         --use-internal-buffering 1                          \
-        --client-console                                    \
-        --live-cache-type memory
+        --client-console
