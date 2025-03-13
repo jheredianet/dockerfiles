@@ -7,7 +7,7 @@ ENV \
 
 USER root
 RUN apt update -yy && apt upgrade -yy && \
-    apt install net-tools
+    apt install -y net-tools nload iputils-ping
 
 USER ace
 CMD mkdir --verbose /dev/shm/.ACEStream;                    \
