@@ -3,7 +3,8 @@ LABEL maintainer="@jheredianet"
 
 ENV \
     P2P_PORT="8621" \
-    TZ="Europe/Madrid"
+    TZ="Europe/Madrid" \
+    TMP=/tmp/ace
 
 USER root
 RUN apt update -yy && apt upgrade -yy && \
@@ -11,6 +12,7 @@ RUN apt update -yy && apt upgrade -yy && \
 
 USER ace
 CMD mkdir --verbose /dev/shm/.ACEStream;                    \
+    mkdir --verbose /tmp/ace;                               \    
     mkdir --verbose /dev/shm/tmp;                           \
     cp --verbose --archive /etc/nginx /dev/shm;             \
     mkdir --verbose /dev/shm/nginx/lib;                     \
