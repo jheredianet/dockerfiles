@@ -8,7 +8,8 @@ ENV \
 
 USER root
 RUN apt update -yy && apt upgrade -yy && \
-    apt install -y net-tools nload iputils-ping
+    apt install -y net-tools nload iputils-ping && \
+    chmod -R 777 /var/lib/nginx
 
 USER ace
 CMD mkdir --verbose /dev/shm/.ACEStream;                    \
