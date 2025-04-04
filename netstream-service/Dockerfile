@@ -1,8 +1,6 @@
 FROM vstavrinov/acestream-service
 LABEL maintainer="@jheredianet"
 
-get_local_ips
-
 ENV \
     P2P_PORT="8621" \
     TZ="Europe/Madrid"
