@@ -1,6 +1,8 @@
 FROM vstavrinov/acestream-service
 LABEL maintainer="@jheredianet"
 
+get_local_ips
+
 ENV \
     P2P_PORT="8621" \
     TZ="Europe/Madrid"
@@ -21,10 +23,11 @@ CMD mkdir --verbose /dev/shm/.ACEStream;                    \
         --expression="s/ENTRY/${ENTRY:+:$ENTRY}/"           \
         --expression="s/SCHEME/${SCHEME:=https}/"           \
         --in-place /dev/shm/nginx/sites-available/default;  \
+    sed -i "/listen $PORT;/a listen [::]:$PORT;"            \
+        /dev/shm/nginx/sites-available/default;             \
     gunicorn --bind 0.0.0.0:3031 search:app &               \
     /usr/sbin/nginx -c /dev/shm/nginx/nginx.conf &          \
     ./start-engine                                          \
-        --client-console                                    \
         --port ${P2P_PORT}                                  \
         --bind-all                                          \
         --use-internal-buffering 1                          \
