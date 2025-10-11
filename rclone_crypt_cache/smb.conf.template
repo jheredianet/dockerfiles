@@ -1,0 +1,13 @@
+[global]
+  workgroup = WORKGROUP
+  server string = Samba Server
+  security = user
+  map to guest = Bad User
+  smb encrypt = required
+
+[rclonedata]
+  path = /rclonedata
+  browseable = yes
+  read only = no
+  guest ok = no
+  valid users = ${SMB_USER}

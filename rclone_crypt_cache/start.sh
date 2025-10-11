@@ -11,17 +11,6 @@ fi
 # Create necessary directories
 mkdir -p /encrypted_cache /decrypted_cache /rclonedata
 
-# Crear htpasswd si no existe
-if [ ! -f /etc/nginx/.htpasswd ]; then
-    echo "Creando htpasswd..."
-    htpasswd -bc /etc/nginx/.htpasswd "$WEBDAV_USER" "$WEBDAV_PASS"
-fi
-
-# Ajustar permisos para que nginx pueda leer
-chown root:nginx /etc/nginx/.htpasswd
-chmod 640 /etc/nginx/.htpasswd
-
-
 # Create a password file
 echo "$ENCFS_PASS" > /tmp/encfs_pass
 chmod 600 /tmp/encfs_pass
@@ -61,7 +50,7 @@ rclone mount mega:/ /rclonedata \
     --daemon
 
 # Wait a moment for mount to initialize
-sleep 3
+sleep 1
 # Verify mount
 if mountpoint -q /rclonedata; then
     echo "rclone mount successful"
@@ -69,7 +58,17 @@ else
     echo "WARNING: rclone mount may have failed"
 fi
 
-# Lanzar nginx
-envsubst '$WEBDAV_PORT' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
-echo "Starting nginx WebDAV..."
-nginx -g "daemon off;"
+# Lanzar samba
+envsubst '$SMB_USER' < /etc/samba/smb.conf.template > /etc/samba/smb.conf
+
+# Crear usuario de sistema si no existe
+if ! id "$SMB_USER" >/dev/null 2>&1; then
+    adduser -D -H -s /sbin/nologin "$SMB_USER"
+fi
+
+# Crear usuario Samba con la contraseña de entorno
+(echo "$SMB_PASS"; echo "$SMB_PASS") | smbpasswd -s -a "$SMB_USER"
+smbpasswd -e "$SMB_USER"
+
+echo "Starting Samba service..."
+smbd --foreground --no-process-group
