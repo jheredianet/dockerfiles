@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 echo "Starting rclone-mega container with encfs encryption..."
 
 # Check if ENCFS_PASSWORD is set
@@ -9,6 +10,16 @@ fi
 
 # Create necessary directories
 mkdir -p /encrypted_cache /decrypted_cache
+
+# Crear htpasswd si no existe
+if [ ! -f /etc/nginx/.htpasswd ]; then
+    echo "Creando htpasswd..."
+    htpasswd -bc /etc/nginx/.htpasswd "$WEBDAV_USER" "$WEBDAV_PASS"
+fi
+
+# Ajustar permisos para que nginx pueda leer
+chown root:root /etc/nginx/.htpasswd
+chmod 640 /etc/nginx/.htpasswd
 
 # Create a password file
 echo "$ENCFS_PASS" > /tmp/encfs_pass
@@ -35,6 +46,7 @@ echo "encfs filesystem ready"
 
 # Start rclone mount with --daemon
 echo "Starting rclone mount..."
+# Montar remoto con rclone (como usuario rclone) en segundo plano
 rclone mount mega:/ /data \
     --config /config/rclone.conf \
     --vfs-cache-mode full \
@@ -56,16 +68,5 @@ else
     echo "WARNING: rclone mount may have failed"
 fi
 
-# Start WebDAV server in foreground (this will be the main process)
-echo "Starting WebDAV server on port 8080..."
-exec rclone serve webdav mega:/ \
-    --config /config/rclone.conf \
-    --addr :"$WEBDAV_PORT" \
-    --vfs-cache-mode full \
-    --vfs-cache-max-age 8760h \
-    --vfs-read-ahead 128M \
-    --vfs-read-chunk-size 128M \
-    --vfs-read-chunk-size-limit off \
-    --cache-dir /decrypted_cache \
-    --user "$WEBDAV_USER" \
-    --pass "$WEBDAV_PASS"
+# Lanzar nginx
+nginx -g "daemon off;"
