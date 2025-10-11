@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-echo "Starting rclone-mega container with encfs encryption..."
+echo "Starting rclone container with encfs encryption and nginx webdav..."
 
 # Check if ENCFS_PASSWORD is set
 if [ -z "$ENCFS_PASS" ]; then
@@ -9,7 +9,7 @@ if [ -z "$ENCFS_PASS" ]; then
 fi
 
 # Create necessary directories
-mkdir -p /encrypted_cache /decrypted_cache
+mkdir -p /encrypted_cache /decrypted_cache /rclonedata
 
 # Crear htpasswd si no existe
 if [ ! -f /etc/nginx/.htpasswd ]; then
@@ -18,8 +18,9 @@ if [ ! -f /etc/nginx/.htpasswd ]; then
 fi
 
 # Ajustar permisos para que nginx pueda leer
-chown root:root /etc/nginx/.htpasswd
+chown root:nginx /etc/nginx/.htpasswd
 chmod 640 /etc/nginx/.htpasswd
+
 
 # Create a password file
 echo "$ENCFS_PASS" > /tmp/encfs_pass
@@ -47,7 +48,7 @@ echo "encfs filesystem ready"
 # Start rclone mount with --daemon
 echo "Starting rclone mount..."
 # Montar remoto con rclone (como usuario rclone) en segundo plano
-rclone mount mega:/ /data \
+rclone mount mega:/ /rclonedata \
     --config /config/rclone.conf \
     --vfs-cache-mode full \
     --vfs-cache-max-size "$CACHE_SIZE" \
@@ -62,11 +63,13 @@ rclone mount mega:/ /data \
 # Wait a moment for mount to initialize
 sleep 3
 # Verify mount
-if mountpoint -q /data; then
+if mountpoint -q /rclonedata; then
     echo "rclone mount successful"
 else
     echo "WARNING: rclone mount may have failed"
 fi
 
 # Lanzar nginx
+envsubst '$WEBDAV_PORT' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+echo "Starting nginx WebDAV..."
 nginx -g "daemon off;"

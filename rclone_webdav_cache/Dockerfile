@@ -11,7 +11,7 @@ ENV CACHE_SIZE="10G" \
 # Dependencias base
 RUN apk update && apk add --no-cache \
     wget unzip fuse3 encfs ca-certificates shadow \
-    nginx apache2-utils
+    nginx apache2-utils nginx-mod-http-dav-ext gettext
 
 # Crear enlace simbólico para compatibilidad
 RUN ln -s /usr/bin/fusermount3 /usr/bin/fusermount
@@ -27,15 +27,15 @@ RUN wget https://downloads.rclone.org/v1.62.0/rclone-v1.62.0-linux-amd64.zip && 
     rm -rf rclone-v1.62.0*
 
 # Crear usuario y directorios
-RUN mkdir -p /encrypted_cache /decrypted_cache /config /data /run/nginx
+RUN mkdir -p /encrypted_cache /decrypted_cache /config /run/nginx
 
 # Copiar configuración de nginx y scripts
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf.template /etc/nginx/nginx.conf.template
 COPY rclone.conf /config/rclone.conf
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-VOLUME ["/config", "/encrypted_cache", "/data"]
+VOLUME ["/config", "/encrypted_cache"]
 EXPOSE 8080
 
 CMD ["/start.sh"]
