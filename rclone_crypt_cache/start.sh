@@ -40,6 +40,7 @@ echo "Starting rclone mount..."
 rclone mount mega:/ /rclonedata \
     --config /config/rclone.conf \
     --vfs-cache-mode full \
+    --uid 1000 --gid 1000 --umask 002 \
     --vfs-cache-max-size "$CACHE_SIZE" \
     --vfs-cache-max-age 8760h \
     --vfs-read-ahead 128M \
