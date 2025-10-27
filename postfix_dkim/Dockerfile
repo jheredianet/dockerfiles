@@ -23,6 +23,7 @@ RUN apt-get update && \
     net-tools \
     netcat-openbsd \
     ca-certificates \
+    tzdata \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 

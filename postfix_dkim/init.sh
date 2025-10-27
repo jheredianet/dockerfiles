@@ -17,8 +17,19 @@ echo "Usando certificado TLS: $SMTPD_TLS_CERT_FILE"
 echo "Usando clave TLS: $SMTPD_TLS_KEY_FILE"
 
 # Configurar la zona horaria
-export TZ
-ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# Método 1: Usar timedatectl (si está disponible)
+if command -v timedatectl &> /dev/null; then
+    timedatectl set-timezone "$TZ"
+else
+    # Método 2: Alternativa para contenedores sin systemd
+    ln -sf "/usr/share/zoneinfo/$TZ" /etc/localtime
+    echo "$TZ" > /etc/timezone
+    
+    # Método 3: Forzar la actualización con dpkg-reconfigure
+    if command -v dpkg-reconfigure &> /dev/null; then
+        DEBIAN_FRONTEND=noninteractive dpkg-reconfigure tzdata
+    fi
+fi
 
 
 echo "=== Copiando Ficheros de Configuración ==="
