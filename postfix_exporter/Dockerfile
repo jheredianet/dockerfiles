@@ -16,9 +16,7 @@ RUN wget -O /usr/local/bin/postfix_exporter \
     && chmod +x /usr/local/bin/postfix_exporter
 
 # Crear un usuario no privilegiado
-RUN useradd --no-create-home --shell /bin/false postfix_exporter \
-    && touch /tmp/postfix_exporter_input.log 
-
+RUN useradd --no-create-home --shell /bin/false postfix_exporter 
 USER postfix_exporter
 
 EXPOSE 9154
@@ -26,4 +24,4 @@ EXPOSE 9154
 CMD ["/usr/local/bin/postfix_exporter", \
      "--web.listen-address=:9154", \
      "--postfix.showq_path=/var/spool/postfix/public/showq", \
-     "--postfix.logfile_path=/tmp/postfix_exporter_input.log"]
+     "--postfix.logfile_path=/var/log/mail.log"]
