@@ -48,7 +48,7 @@ RUN chmod +x /init.sh
 EXPOSE 587
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD echo QUIT | nc localhost 587 | grep -q "220"
+#HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+#    CMD echo QUIT | nc localhost 587 | grep -q "220"
 
 CMD ["/init.sh"]
