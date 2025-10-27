@@ -41,21 +41,6 @@ else
     echo "⚠️  No se encontraron claves DKIM"
 fi
 
-# Verificar certificados Let's Encrypt
-if [ -f "$SMTPD_TLS_CERT_FILE" ] && [ -f "$SMTPD_TLS_KEY_FILE" ]; then
-    echo "✅ Certificados Let's Encrypt detectados"
-    postconf -e "smtpd_tls_cert_file=$SMTPD_TLS_CERT_FILE"
-    postconf -e "smtpd_tls_key_file=$SMTPD_TLS_KEY_FILE"
-else
-    echo "⚠️  Usando certificados autofirmados"
-    # Asegurar que los certificados autofirmados existen
-    if [ ! -f "/etc/ssl/certs/ssl-cert-snakeoil.pem" ]; then
-        echo "❌ No se encontraron certificados autofirmados, generando..."
-        mkdir -p /etc/ssl/private
-        openssl req -new -x509 -days 3650 -nodes -out /etc/ssl/certs/ssl-cert-snakeoil.pem -keyout /etc/ssl/private/ssl-cert-snakeoil.key -subj "/CN=localhost"
-    fi
-fi
-
 echo "Configurando PostFix..."
 
 # Configuraciones esenciales de Postfix
@@ -73,6 +58,34 @@ postconf -e "smtpd_milters=inet:localhost:8891"
 postconf -e "non_smtpd_milters=inet:localhost:8891"
 postconf -e "compatibility_level=3.6"
 
+# 🔧 **CONFIGURACIÓN TLS CORREGIDA - ESTA ES LA PARTE CLAVE**
+echo "🔧 Configurando TLS..."
+
+# Verificar y configurar certificados TLS
+if [ -f "$SMTPD_TLS_CERT_FILE" ] && [ -f "$SMTPD_TLS_KEY_FILE" ]; then
+    echo "✅ Certificados Let's Encrypt detectados - Configurando TLS"
+    postconf -e "smtpd_tls_cert_file=$SMTPD_TLS_CERT_FILE"
+    postconf -e "smtpd_tls_key_file=$SMTPD_TLS_KEY_FILE"
+    postconf -e "smtpd_tls_security_level=may"  # ⚠️ ESTA LÍNEA FALTABA
+    echo "✅ TLS configurado con certificados Let's Encrypt"
+else
+    echo "⚠️  Certificados Let's Encrypt NO encontrados, verificando autofirmados..."
+    # Asegurar que los certificados autofirmados existen
+    if [ ! -f "/etc/ssl/certs/ssl-cert-snakeoil.pem" ]; then
+        echo "❌ No se encontraron certificados autofirmados, generando..."
+        mkdir -p /etc/ssl/private
+        openssl req -new -x509 -days 3650 -nodes \
+            -out /etc/ssl/certs/ssl-cert-snakeoil.pem \
+            -keyout /etc/ssl/private/ssl-cert-snakeoil.key \
+            -subj "/CN=$HOST_NAME"
+        chmod 600 /etc/ssl/private/ssl-cert-snakeoil.key
+    fi
+    postconf -e "smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem"
+    postconf -e "smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key"
+    postconf -e "smtpd_tls_security_level=may"  # ⚠️ ESTA TAMBIÉN FALTABA
+    echo "✅ TLS configurado con certificados autofirmados"
+fi
+
 # Configurar SASL para usar sasldb2 en lugar de Dovecot
 postconf -e "smtpd_sasl_type=cyrus"
 postconf -e "smtpd_sasl_path=/etc/postfix/sasl/smtpd.conf"
@@ -80,7 +93,6 @@ postconf -e "smtpd_sasl_auth_enable=yes"
 postconf -e "smtpd_sasl_security_options=noanonymous"
 postconf -e "broken_sasl_auth_clients=yes"
 postconf -e "smtpd_sasl_local_domain=$HOST_NAME"
-
 
 # Configuración básica de destino
 postconf -e "mydestination=\$myhostname,localhost.\$mydomain,localhost,\$mydomain"
@@ -105,6 +117,7 @@ chgrp postdrop /var/spool/postfix/maildrop
 # **ELIMINAR RSYSLOG - Usar logging directo de Postfix**
 echo "Configurando logging directo..."
 postconf -e "maillog_file=/dev/stdout"
+
 
 # Iniciar OpenDKIM
 echo "Iniciando OpenDKIM..."
@@ -161,6 +174,10 @@ fi
 
 echo "=== TODOS LOS SERVICIOS INICIADOS CORRECTAMENTE ==="
 
+# 🔧 **VERIFICACIÓN ESPECÍFICA DE TLS**
+echo "🔍 Verificando configuración TLS..."
+postconf smtpd_tls_cert_file smtpd_tls_key_file smtpd_tls_security_level
+
 # Mantener el contenedor vivo y mostrar logs
 echo "=== INICIADO - LISTO PARA RECIBIR CONEXIONES ==="
 echo "Puerto 587 - SMTP con TLS"
@@ -179,7 +196,8 @@ postconf -e "maillog_file=/var/log/mail.log"
 postconf -e "smtpd_proxy_options=speed_adjust"
 postconf -e "disable_dns_lookups=no"
 
-# Recargar configuración
+# 🔧 **RECARGA FINAL PARA ASEGURAR TLS**
+echo "🔧 Recarga final para activar TLS..."
 /usr/sbin/postfix reload
 sleep 3
 
