@@ -1,19 +1,6 @@
 #!/bin/bash
 set -e
 
-echo "=== Copiando Ficheros de Configuración ==="
-cp /config/main.cf /etc/postfix/main.cf
-cp /config/master.cf /etc/postfix/master.cf
-cp /config/sasl/smtpd.conf /etc/postfix/sasl/smtpd.conf
-cp /config/opendkim/opendkim.conf /etc/opendkim/opendkim.conf
-cp /config/opendkim/TrustedHosts /etc/opendkim/TrustedHosts
-cp /config/opendkim/KeyTable /etc/opendkim/KeyTable
-cp /config/opendkim/SigningTable /etc/opendkim/SigningTable
-cp /config/opendkim/keys/mail /etc/opendkim/keys/mail
-cp /config/sasl/sasldb2 /etc/sasldb2
-
-echo "✅ Ficheros de configuración copiados"
-
 echo "=== INICIALIZANDO SERVICIOS SMTP ==="
 # Configurar hostname y dominio desde variables de entorno o valores por defecto
 HOST_NAME=${HOST_NAME}
@@ -21,6 +8,7 @@ DOMAIN=${DOMAIN}
 SMTPD_TLS_CERT_FILE=${SMTPD_TLS_CERT_FILE}
 SMTPD_TLS_KEY_FILE=${SMTPD_TLS_KEY_FILE}
 TZ=${TZ:-"Europe/Madrid"}
+PORT=${PORT:-"55555"}
 
 echo "Usando hostname: $HOST_NAME"
 echo "Usando dominio: $DOMAIN"
@@ -32,6 +20,24 @@ echo "Usando clave TLS: $SMTPD_TLS_KEY_FILE"
 export TZ
 ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+
+echo "=== Copiando Ficheros de Configuración ==="
+cp /config/main.cf /etc/postfix/main.cf
+#cp /config/master.cf /etc/postfix/master.cf
+cp /config/sasl/smtpd.conf /etc/postfix/sasl/smtpd.conf
+cp /config/opendkim/opendkim.conf /etc/opendkim/opendkim.conf
+cp /config/opendkim/TrustedHosts /etc/opendkim/TrustedHosts
+cp /config/opendkim/KeyTable /etc/opendkim/KeyTable
+cp /config/opendkim/SigningTable /etc/opendkim/SigningTable
+cp /config/opendkim/keys/mail /etc/opendkim/keys/mail
+cp /config/sasl/sasldb2 /etc/sasldb2
+
+# Usar la plantilla y reemplazar el puerto
+sed "s/SUBMISSION_PORT/${PORT}/g" /config/master.cf > /etc/postfix/master.cf
+
+echo "✅ Ficheros de configuración copiados"
+
+echo "Configurando OpenDKIM..."
 # Configurar permisos de claves DKIM
 if [ -f "/etc/opendkim/keys/mail" ]; then
     chmod 600 /etc/opendkim/keys/mail
@@ -148,26 +154,26 @@ else
     exit 1
 fi
 
-# Verificar que el puerto 587 esté escuchando usando ss (alternativa a netstat)
+# Verificar que el puerto XXXX esté escuchando usando ss (alternativa a netstat)
 if command -v ss >/dev/null 2>&1; then
-    if ss -tln | grep -q ":587 "; then
-        echo "✅ Servicio SMTP escuchando en puerto 587"
+    if ss -tln | grep -q ":$PORT "; then
+        echo "✅ Servicio SMTP escuchando en puerto $PORT"
     else
-        echo "❌ Servicio SMTP NO está escuchando en puerto 587"
+        echo "❌ Servicio SMTP NO está escuchando en puerto $PORT, intentando verificación alternativa..."
         # Verificar usando /proc/net/tcp como alternativa
         if grep -q "16FB" /proc/net/tcp; then
-            echo "✅ Servicio SMTP escuchando en puerto 587 (verificado via /proc/net/tcp)"
+            echo "✅ Servicio SMTP escuchando en puerto $PORT (verificado via /proc/net/tcp)"
         else
-            echo "❌ Servicio SMTP NO está escuchando en puerto 587"
+            echo "❌ Servicio SMTP NO está escuchando en puerto $PORT"
             exit 1
         fi
     fi
 else
     # Si ss no está disponible, usar netstat
-    if netstat -tln 2>/dev/null | grep -q ":587 "; then
-        echo "✅ Servicio SMTP escuchando en puerto 587"
+    if netstat -tln 2>/dev/null | grep -q ":$PORT "; then
+        echo "✅ Servicio SMTP escuchando en puerto $PORT"
     else
-        echo "❌ Servicio SMTP NO está escuchando en puerto 587"
+        echo "❌ Servicio SMTP NO está escuchando en puerto $PORT"
         exit 1
     fi
 fi
@@ -180,7 +186,7 @@ postconf smtpd_tls_cert_file smtpd_tls_key_file smtpd_tls_security_level
 
 # Mantener el contenedor vivo y mostrar logs
 echo "=== INICIADO - LISTO PARA RECIBIR CONEXIONES ==="
-echo "Puerto 587 - SMTP con TLS"
+echo "Puerto $PORT - SMTP con TLS"
 echo "Certificados Let's Encrypt configurados"
 echo "OpenDKIM funcionando"
 

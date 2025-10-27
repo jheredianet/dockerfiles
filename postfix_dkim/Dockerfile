@@ -8,7 +8,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     SMTPD_TLS_CERT_FILE=fullchain.pem \
     SMTPD_TLS_KEY_FILE=privkey.pem \
     HOST_NAME=mail.dominio.com \
-    DOMAIN=dominio.com
+    DOMAIN=dominio.com \
+    PORT=55555
 
 # Instalar dependencias
 RUN apt-get update && \
@@ -45,10 +46,6 @@ COPY init.sh /init.sh
 RUN chmod +x /init.sh
 
 # Puertos
-EXPOSE 587
-
-# Health check
-#HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-#    CMD echo QUIT | nc localhost 587 | grep -q "220"
+EXPOSE ${PORT}
 
 CMD ["/init.sh"]
