@@ -184,8 +184,8 @@ postconf -e "disable_dns_lookups=no"
 sleep 3
 
 echo "=== SISTEMA LISTO ==="
-echo "Para ver logs: docker-compose logs -f smtp-server"
-echo "O ejecuta: docker exec smtp-server tail -f /var/log/mail.log"
+echo "Para ver logs: docker-compose logs -f postfix"
+echo "O ejecuta: docker exec postfix tail -f /var/log/mail.log"
 
 # **Mantener contenedor vivo y mostrar logs**
 while true; do
