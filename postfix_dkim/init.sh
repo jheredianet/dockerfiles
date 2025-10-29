@@ -35,6 +35,7 @@ fi
 echo "=== Copiando Ficheros de Configuración ==="
 cp /config/main.cf /etc/postfix/main.cf
 cp /config/aliases /etc/aliases
+cp /config/sasl_passwd /etc/postfix/sasl_passwd
 cp /config/sender_canonical /etc/postfix/sender_canonical
 cp /config/transport /etc/postfix/transport
 cp /config/sasl/smtpd.conf /etc/postfix/sasl/smtpd.conf
@@ -44,9 +45,6 @@ cp /config/opendkim/KeyTable /etc/opendkim/KeyTable
 cp /config/opendkim/SigningTable /etc/opendkim/SigningTable
 cp /config/opendkim/keys/mail /etc/opendkim/keys/mail
 cp /config/sasl/sasldb2 /etc/sasldb2
-
-postmap /etc/postfix/transport
-postmap /etc/postfix/sender_canonical
 
 # Usar la plantilla y reemplazar el puerto
 #cp /config/master.cf /etc/postfix/master.cf
@@ -83,6 +81,17 @@ postconf -e "smtpd_milters=inet:localhost:8891"
 postconf -e "non_smtpd_milters=inet:localhost:8891"
 postconf -e "compatibility_level=3.6"
 
+# Configurar transporte sin relayhost
+postconf -e "relayhost="
+postconf -e "transport_maps=hash:/etc/postfix/transport"
+postconf -e "relay_domains=$DOMAIN"
+
+postmap /etc/postfix/sasl_passwd
+postmap /etc/postfix/sender_canonical
+postmap /etc/postfix/transport
+
+echo "✅ Transport maps configurado"
+
 # 🔧 **CONFIGURACIÓN TLS CORREGIDA - ESTA ES LA PARTE CLAVE**
 echo "🔧 Configurando TLS..."
 
@@ -91,7 +100,7 @@ if [ -f "$SMTPD_TLS_CERT_FILE" ] && [ -f "$SMTPD_TLS_KEY_FILE" ]; then
     echo "✅ Certificados Let's Encrypt detectados - Configurando TLS"
     postconf -e "smtpd_tls_cert_file=$SMTPD_TLS_CERT_FILE"
     postconf -e "smtpd_tls_key_file=$SMTPD_TLS_KEY_FILE"
-    postconf -e "smtpd_tls_security_level=may"  # ⚠️ ESTA LÍNEA FALTABA
+    postconf -e "smtpd_tls_security_level=may"
     echo "✅ TLS configurado con certificados Let's Encrypt"
 else
     echo "⚠️  Certificados Let's Encrypt NO encontrados, verificando autofirmados..."
@@ -121,7 +130,8 @@ postconf -e "smtpd_sasl_local_domain=$HOST_NAME"
 
 # Configuración básica de destino
 #postconf -e "mydestination=\$myhostname,localhost.\$mydomain,localhost,\$mydomain"
-postconf -e "mydestination=\$myhostname,localhost.\$mydomain,localhost"
+#postconf -e "mydestination=\$myhostname,localhost.\$mydomain,localhost"
+postconf -e "mydestination=localhost"
 
 # Configurar permisos SASL
 if [ -f "/etc/sasldb2" ]; then
