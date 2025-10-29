@@ -34,7 +34,8 @@ fi
 
 echo "=== Copiando Ficheros de Configuración ==="
 cp /config/main.cf /etc/postfix/main.cf
-cp /config/aliases /etc/aliases
+#cp /config/aliases /etc/aliases # Con local_transport = error:No local delivery, los aliases no se aplican.
+cp /config/virtual /etc/postfix/virtual
 cp /config/sasl_passwd /etc/postfix/sasl_passwd
 cp /config/sender_canonical /etc/postfix/sender_canonical
 cp /config/transport /etc/postfix/transport
@@ -89,6 +90,7 @@ postconf -e "relay_domains=$DOMAIN"
 postmap /etc/postfix/sasl_passwd
 postmap /etc/postfix/sender_canonical
 postmap /etc/postfix/transport
+postmap /etc/postfix/virtual
 
 echo "✅ Transport maps configurado"
 
@@ -116,7 +118,7 @@ else
     fi
     postconf -e "smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem"
     postconf -e "smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key"
-    postconf -e "smtpd_tls_security_level=may"  # ⚠️ ESTA TAMBIÉN FALTABA
+    postconf -e "smtpd_tls_security_level=may"  
     echo "✅ TLS configurado con certificados autofirmados"
 fi
 
