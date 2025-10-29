@@ -34,7 +34,7 @@ fi
 
 echo "=== Copiando Ficheros de Configuración ==="
 cp /config/main.cf /etc/postfix/main.cf
-#cp /config/master.cf /etc/postfix/master.cf
+cp /config/aliases /etc/aliases
 cp /config/sasl/smtpd.conf /etc/postfix/sasl/smtpd.conf
 cp /config/opendkim/opendkim.conf /etc/opendkim/opendkim.conf
 cp /config/opendkim/TrustedHosts /etc/opendkim/TrustedHosts
@@ -44,6 +44,7 @@ cp /config/opendkim/keys/mail /etc/opendkim/keys/mail
 cp /config/sasl/sasldb2 /etc/sasldb2
 
 # Usar la plantilla y reemplazar el puerto
+#cp /config/master.cf /etc/postfix/master.cf
 sed "s/SUBMISSION_PORT/${PORT}/g" /config/master.cf > /etc/postfix/master.cf
 
 echo "✅ Ficheros de configuración copiados"
@@ -64,6 +65,7 @@ echo "Configurando PostFix..."
 postconf -e "myhostname=$HOST_NAME"
 postconf -e "mydomain=$DOMAIN"
 postconf -e "myorigin=$DOMAIN"
+postconf -e "double_bounce_sender=postmaster@$DOMAIN"
 postconf -e "inet_interfaces=all"
 postconf -e "mynetworks=127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
 postconf -e "broken_sasl_auth_clients=yes"
@@ -142,6 +144,10 @@ echo "Iniciando OpenDKIM..."
 
 # Pequeña pausa para que OpenDKIM se inicie
 sleep 2
+
+# Reconfigurar new aliases
+echo "Recargando new aliases..."
+/usr/bin/newaliases
 
 # Iniciar Postfix
 echo "Iniciando Postfix..."
