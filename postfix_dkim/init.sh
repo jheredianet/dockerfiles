@@ -83,7 +83,7 @@ postconf -e "non_smtpd_milters=inet:localhost:8891"
 postconf -e "compatibility_level=3.6"
 
 # Configurar transporte sin relayhost
-postconf -e "relayhost="
+#postconf -e "relayhost="
 postconf -e "transport_maps=hash:/etc/postfix/transport"
 postconf -e "relay_domains=$DOMAIN"
 
