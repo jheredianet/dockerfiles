@@ -44,6 +44,9 @@ RUN mkdir -p /var/run/sshd && \
     chmod 755 /var/run/sshd && \
     chown root:root /var/run/sshd
 
+# Crear directorio /app
+RUN mkdir -p /app && chmod 755 /app
+
 # Crear directorio de logs para supervisord
 RUN mkdir -p /var/log/supervisor && chmod 777 /var/log/supervisor
 
@@ -90,14 +93,6 @@ RUN /home/bot/venv/bin/pip install openai-whisper
 # Copiar configuración de supervisord
 COPY supervisord.conf /etc/supervisor/conf.d/openclaw.conf
 
-# Copiar wrapper de openclaw
-COPY --chown=bot:bot start-openclaw.sh /home/bot/start-openclaw.sh
-RUN chmod +x /home/bot/start-openclaw.sh
-
-# Copiar script de inicio
-COPY --chown=bot:bot entrypoint.sh /home/bot/entrypoint.sh
-RUN chmod +x /home/bot/entrypoint.sh
-
 # Instalar claude-cli
 RUN curl -fsSL https://claude.ai/install.sh | bash
 
@@ -108,5 +103,12 @@ EXPOSE 18789
 # Volver a root para ejecutar supervisord (necesario para sshd y crear el socket)
 USER root
 
+# Copiar scripts a /app
+COPY start-openclaw.sh /app/start-openclaw.sh
+RUN chmod +x /app/start-openclaw.sh
+
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 # Ejecutar supervisord como PID 1
-ENTRYPOINT ["/home/bot/entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
