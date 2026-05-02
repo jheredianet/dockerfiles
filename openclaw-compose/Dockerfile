@@ -44,6 +44,9 @@ RUN mkdir -p /var/run/sshd && \
     chmod 755 /var/run/sshd && \
     chown root:root /var/run/sshd
 
+# Crear directorio de logs para supervisord
+RUN mkdir -p /var/log/supervisor && chmod 777 /var/log/supervisor
+
 # Cambiar al usuario bot
 USER bot
 WORKDIR /home/bot
@@ -101,6 +104,9 @@ RUN curl -fsSL https://claude.ai/install.sh | bash
 # Exponer puertos
 EXPOSE 2222
 EXPOSE 18789
+
+# Volver a root para ejecutar supervisord (necesario para sshd y crear el socket)
+USER root
 
 # Ejecutar supervisord como PID 1
 ENTRYPOINT ["/home/bot/entrypoint.sh"]
