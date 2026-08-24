@@ -1,33 +1,30 @@
-FROM vstavrinov/acestream-service
+FROM ghcr.io/martinbjeldbak/acestream-http-proxy:latest
 LABEL maintainer="@jheredianet"
 
-ENV \
-    P2P_PORT="8621" \
-    TZ="Europe/Madrid"
-
 USER root
-RUN apt update -yy && apt upgrade -yy && \
-    apt install net-tools && \
-    chmod -R 777 /var/lib/nginx
 
-USER ace
-CMD mkdir --verbose /dev/shm/.ACEStream;                    \
-    mkdir --verbose /dev/shm/tmp;                           \
-    cp --verbose --archive /etc/nginx /dev/shm;             \
-    mkdir --verbose /dev/shm/nginx/lib;                     \
-    cd /dev/shm/nginx/sites-enabled;                        \
-    ln --symbolic --force ../sites-available/default .; cd; \
-    sed --expression="s/PORT/${PORT:=80}/"                  \
-        --expression="s/ENTRY/${ENTRY:+:$ENTRY}/"           \
-        --expression="s/SCHEME/${SCHEME:=https}/"           \
-        --in-place /dev/shm/nginx/sites-available/default;  \
-    sed -i "/listen $PORT;/a listen [::]:$PORT;"            \
-        /dev/shm/nginx/sites-available/default;             \
-    gunicorn --bind 0.0.0.0:3031 search:app &               \
-    /usr/sbin/nginx -c /dev/shm/nginx/nginx.conf &          \
-    ./start-engine                                          \
-        --port ${P2P_PORT}                                  \
-        --bind-all                                          \
-        --use-internal-buffering 1                          \
-        --live-cache-type memory                            \
-        --client-console
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+        gnupg \
+        dbus \
+        iputils-ping \
+        dnsutils \
+    && mkdir -p /usr/share/keyrings \
+    && curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg \
+        -o /tmp/cloudflare-warp-key.gpg \
+    && gpg --yes --dearmor \
+        --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg \
+        /tmp/cloudflare-warp-key.gpg \
+    && . /etc/os-release \
+    && echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ ${VERSION_CODENAME} main" \
+        > /etc/apt/sources.list.d/cloudflare-client.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends cloudflare-warp \
+    && rm -rf /tmp/cloudflare-warp-key.gpg /var/lib/apt/lists/*
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
