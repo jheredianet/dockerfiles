@@ -20,6 +20,7 @@ RUN apt-get update && \
     libsasl2-modules \
     opendkim \
     opendkim-tools \
+    logrotate \
     net-tools \
     netcat-openbsd \
     ca-certificates \
@@ -41,6 +42,8 @@ RUN mkdir -p /var/run/opendkim && \
 RUN touch /etc/postfix/main.cf /etc/postfix/master.cf && \
     touch /etc/opendkim/opendkim.conf /etc/opendkim/TrustedHosts && \
     touch /etc/opendkim/KeyTable /etc/opendkim/SigningTable
+
+COPY postfix-logrotate.conf /etc/logrotate.d/postfix-docker
 
 # Script de inicialización
 COPY init.sh /init.sh

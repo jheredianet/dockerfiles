@@ -16,20 +16,14 @@ echo "Usando zona horaria: $TZ"
 echo "Usando certificado TLS: $SMTPD_TLS_CERT_FILE"
 echo "Usando clave TLS: $SMTPD_TLS_KEY_FILE"
 
-# Configurar la zona horaria
-# Método 1: Usar timedatectl (si está disponible)
-if command -v timedatectl &> /dev/null; then
-    timedatectl set-timezone "$TZ"
-else
-    # Método 2: Alternativa para contenedores sin systemd
-    ln -sf "/usr/share/zoneinfo/$TZ" /etc/localtime
-    echo "$TZ" > /etc/timezone
-    
-    # Método 3: Forzar la actualización con dpkg-reconfigure
-    if command -v dpkg-reconfigure &> /dev/null; then
-        DEBIAN_FRONTEND=noninteractive dpkg-reconfigure tzdata
-    fi
+# Configurar zona horaria en el contenedor
+if [ ! -f "/usr/share/zoneinfo/$TZ" ]; then
+    echo "❌ Zona horaria no válida: $TZ"
+    exit 1
 fi
+
+ln -sfn "/usr/share/zoneinfo/$TZ" /etc/localtime
+echo "$TZ" > /etc/timezone
 
 
 echo "=== Copiando Ficheros de Configuración ==="
@@ -74,8 +68,8 @@ postconf -e "mail_name = Postfix - $DOMAIN"
 postconf -e "inet_interfaces=all"
 postconf -e "mynetworks=127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
 postconf -e "broken_sasl_auth_clients=yes"
-postconf -e "smtpd_use_tls=yes"
-postconf -e "smtp_use_tls=yes"
+#postconf -e "smtpd_use_tls=yes"
+#postconf -e "smtp_use_tls=yes"
 postconf -e "milter_default_action=accept"
 postconf -e "milter_protocol=6"
 postconf -e "smtpd_milters=inet:localhost:8891"
@@ -147,6 +141,8 @@ echo "Ajustando permisos de Postfix..."
 mkdir -p /var/spool/postfix
 chown -R postfix:postfix /var/spool/postfix
 # Permisos específicos para directorios críticos
+chown root:root /var/spool/postfix/etc
+chown root:root /var/spool/postfix/etc/*
 chown root:root /var/spool/postfix/
 chown root:root /var/spool/postfix/pid
 chgrp postdrop /var/spool/postfix/public
@@ -236,7 +232,22 @@ touch /var/log/mail.err
 # Configurar Postfix para log detallado
 postconf -e "maillog_file=/var/log/mail.log"
 postconf -e "smtpd_proxy_options=speed_adjust"
-postconf -e "disable_dns_lookups=no"
+#postconf -e "disable_dns_lookups=no"
+
+# 🔧 **PREPARA LogRotate**
+echo "🔧 Preparando LogRotate..."
+mkdir -p /var/lib/logrotate
+
+(
+    while true; do
+        /usr/sbin/logrotate \
+            -s /var/lib/logrotate/status \
+            /etc/logrotate.d/postfix-docker \
+            || echo "⚠️ Error ejecutando logrotate"
+
+        sleep 3600
+    done
+) &
 
 # 🔧 **RECARGA FINAL PARA ASEGURAR TLS**
 echo "🔧 Recarga final para activar TLS..."
